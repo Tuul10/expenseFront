@@ -1,5 +1,6 @@
 import { IoClose } from "react-icons/io5";
 import { useState } from "react";
+import axios from "axios";
 import Drink from "../../public/icons/Drink";
 import Gift from "../../public/icons/Gift";
 import Shopping from "../../public/icons/Shopping";
@@ -10,6 +11,15 @@ import FoodExpense from "../../public/icons/FoodExpenseIcon";
 const AddRecord = (props) => {
   const { onCloseModal } = props;
   const [incomeExpense, setIncomeExpense] = useState("Expense");
+
+  const createRecord = async () => {
+    await axios.post("http://localhost:8000/customers", {
+      firstName: "haha",
+      lastName: "hih",
+      email: "",
+      address: "",
+    });
+  };
 
   const handleIncomeOrExpense = (props) => {
     const { name } = props;
@@ -99,7 +109,7 @@ const AddRecord = (props) => {
             </div>
           </div>
           <button
-            onClick={() => handleAdd()}
+            onClick={() => createRecord()}
             className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
             style={{ backgroundColor: buttonColor }}
           >
