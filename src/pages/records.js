@@ -7,6 +7,7 @@ import { FaChevronLeft, FaSearchengin } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
+import { Records } from "@/components/Records";
 
 import AddRecord from "@/components/AddRecord";
 
@@ -262,6 +263,7 @@ const Records = () => {
                   );
                 })}
               </div>
+              <Records />
               <div className="flex gap-2 py-1.5 pl-3 items-center">
                 <PlusSign color={"#0166FF"} />
                 <p>Add category </p>

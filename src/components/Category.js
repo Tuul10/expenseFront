@@ -2,20 +2,14 @@ import EyeIcon from "../../public/icons/EyeIcon";
 import ClosedEyeIcon from "../../public/icons/ClosedEyeIcon";
 import { useState } from "react";
 
-const MyCategories = (props) => {
-  const { categoryName, ischecked } = props;
-  const [checked, setChecked] = useState("true");
-  const handleClick = () => {
-    if (checked === "true") {
-      setChecked("false");
-    } else {
-      setChecked("true");
-    }
-  };
-  const icon = checked === "true" ? <EyeIcon /> : <ClosedEyeIcon />;
+const Category = (props) => {
+  const { categoryName, ischecked, onClick } = props;
+
+  const icon = ischecked ? <EyeIcon /> : <ClosedEyeIcon />;
+
   return (
     <div
-      onClick={() => handleClick()}
+      onClick={onClick}
       className="w-full pl-3 py-1.5 flex gap-2 items-center"
     >
       {icon}
@@ -24,4 +18,4 @@ const MyCategories = (props) => {
   );
 };
 
-export default MyCategories;
+export default Category;

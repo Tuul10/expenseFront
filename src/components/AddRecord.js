@@ -1,5 +1,5 @@
 import { IoClose } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Drink from "../../public/icons/Drink";
 import Gift from "../../public/icons/Gift";
@@ -11,15 +11,31 @@ import FoodExpense from "../../public/icons/FoodExpenseIcon";
 const AddRecord = (props) => {
   const { onCloseModal } = props;
   const [incomeExpense, setIncomeExpense] = useState("Expense");
+  const [categories, setCategories] = useState([]);
+  console.log(categories);
 
   const createRecord = async () => {
-    await axios.post("http://localhost:8000/customers", {
-      firstName: "haha",
-      lastName: "hih",
-      email: "",
-      address: "",
-    });
+    try {
+      await axios.post("http://localhost:8000/records", {
+        userid: 1,
+        record_name: "",
+        amount: 2000,
+        transaction_type: "EXP",
+        description: "",
+        gategoryid: 2,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const { data } = await axios.get("http://localhost:8000/category");
+      setCategories(data.categories);
+    };
+    getCategories;
+  }, []);
 
   const handleIncomeOrExpense = (props) => {
     const { name } = props;
@@ -85,8 +101,16 @@ const AddRecord = (props) => {
               <p> Category </p>
               <select className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg">
                 <option defaultChecked> Find or choose category</option>
-                <option className="px-[18px] py-2 flex gap-3">Food</option>
-                <option> Home </option>
+                <option>
+                  {categories.map((category) => {
+                    return (
+                      <option className="px-[18px] py-2 flex gap-3">
+                        {category.category_name}
+                      </option>
+                    );
+                  })}
+                </option>
+                <option>kkk</option>
               </select>
             </div>
             <div className="flex gap-2">
@@ -109,7 +133,7 @@ const AddRecord = (props) => {
             </div>
           </div>
           <button
-            onClick={() => createRecord()}
+            onClick={createRecord}
             className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
             style={{ backgroundColor: buttonColor }}
           >

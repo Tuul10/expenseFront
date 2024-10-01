@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const OneRecord = (props) => {
   const { text, image, time, color, money, iconColor } = props;
 
@@ -12,10 +14,11 @@ const OneRecord = (props) => {
         >
           {image}
         </div>
-
         <div className="flex flex-col">
           <p className="font-normal text-base">{text}</p>
-          <p className="font-normal text-xs text-[#6B7280]"> {time} </p>
+          <p className="font-normal text-xs text-[#6B7280]">
+            {moment(time).format("ll")}
+          </p>
         </div>
       </div>
       <p className={`font-semibold text-base text-[${color}]`}> {money} </p>

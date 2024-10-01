@@ -7,8 +7,9 @@ import { FaChevronLeft, FaSearchengin } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import RentIcon from "../../public/icons/RentIcon";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
-
+import { Categories } from "@/components/Categories";
 import AddRecord from "@/components/AddRecord";
+import { Transaction } from "@/components/Transaction";
 
 const categories = [
   "Food & Drinks",
@@ -118,48 +119,13 @@ const records = [
     },
   ],
 ];
-let checked = [
-  "true",
-  "true",
-  "true",
-  "true",
-  "true",
-  "true",
-  "true",
-  "true",
-  "true",
-  "true",
-  "true",
-  "true",
-];
-const Home = () => {
+
+const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
 
   const [selected, setSelected] = useState("All");
   const [myRecords, setRecords] = useState(records);
 
-  const [selectedCategories, setSelectedCategories] = useState(categories);
-  const [selectedEyes, setSelectedEyes] = useState(checked);
-
-  const [checkedCategories, setCheckedCategories] = useState(categories);
-  console.log(selectedEyes);
-  console.log(checkedCategories);
-  const handleCategory = (input, index) => {
-    let myCategories = [...selectedEyes];
-    if (input == "true") {
-      myCategories[index] = "false";
-    } else {
-      myCategories[index] = "true";
-    }
-    setSelectedEyes(myCategories);
-    let filteredCategories = [];
-    for (let i = 0; i < categories.length; i++) {
-      if (selectedEyes[i] == "true") {
-        filteredCategories.push(selectedCategories[i]);
-      }
-    }
-    setCheckedCategories();
-  };
   const handleExpense = () => {
     const filtered = records.map((day) =>
       day.filter((oneRecord) => oneRecord.money.includes("-"))
@@ -247,11 +213,12 @@ const Home = () => {
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
-                <p className="font-semibold text-base">Category</p>
+                <Categories />
+
                 <p className="font-normal text-base opacity-20"> Clear </p>
               </div>
               <div className="flex flex-col gap-2">
-                {categories.map((category1, index) => {
+                {/* {categories.map((category1, index) => {
                   return (
                     <div
                       key={index}
@@ -260,7 +227,7 @@ const Home = () => {
                       <MyCategories categoryName={category1} />
                     </div>
                   );
-                })}
+                })} */}
               </div>
               <div className="flex gap-2 py-1.5 pl-3 items-center">
                 <PlusSign color={"#0166FF"} />
@@ -287,7 +254,7 @@ const Home = () => {
             <div className="flex flex-col gap-3">
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
-                {myRecords[0].map((recordToday, index) => {
+                {/* {myRecords[0].map((recordToday, index) => {
                   return (
                     <OneRecord
                       key={index}
@@ -299,11 +266,12 @@ const Home = () => {
                       iconColor={recordToday.iconColor}
                     />
                   );
-                })}
+                })} */}
+                <Transaction />
               </div>
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">
-                {myRecords[1].map((recordToday, index) => {
+                {/* {myRecords[1].map((recordToday, index) => {
                   return (
                     <OneRecord
                       key={index}
@@ -315,7 +283,8 @@ const Home = () => {
                       iconColor={recordToday.iconColor}
                     />
                   );
-                })}
+                })} */}
+                <Transaction />
               </div>
             </div>
           </div>
