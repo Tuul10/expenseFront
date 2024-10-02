@@ -12,30 +12,11 @@ const AddRecord = (props) => {
   const { onCloseModal } = props;
   const [incomeExpense, setIncomeExpense] = useState("Expense");
   const [categories, setCategories] = useState([]);
-  console.log(categories);
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [transactionType, setTransactionType] = useState("");
 
-  const createRecord = async () => {
-    try {
-      await axios.post("http://localhost:8000/records", {
-        userid: 1,
-        record_name: "",
-        amount: 2000,
-        transaction_type: "EXP",
-        description: "",
-        gategoryid: 2,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    const getCategories = async () => {
-      const { data } = await axios.get("http://localhost:8000/category");
-      setCategories(data.categories);
-    };
-    getCategories;
-  }, []);
+  const [name, setName] = useState("");
 
   const handleIncomeOrExpense = (props) => {
     const { name } = props;
@@ -47,12 +28,40 @@ const AddRecord = (props) => {
     }
   };
 
-  const handleAdd = () => {};
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const response = await axios.get("http://localhost:8000/category");
+        setCategories(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUser();
+  }, []);
+
+  const handleAdd = async () => {
+    await axios
+      .post("http://localhost:8000/records", {
+        userid: 1,
+        record_name: name,
+        amount: amount,
+        transaction_type: incomeExpense,
+        description: description,
+        gategoryid: categories.categoryid,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const Expensebackground = incomeExpense === "Expense" ? "#0166FF" : "#F3F4F6";
   const Incomebackground = incomeExpense === "Income" ? "#16A34A" : "#F3F4F6";
   const buttonColor = incomeExpense === "Income" ? "#16A34A" : "#0166FF";
-  console.log(buttonColor);
+
   const textColorIncome =
     incomeExpense === "Income" ? "text-white" : "text-base";
   const textColorExpense =
@@ -70,84 +79,110 @@ const AddRecord = (props) => {
         <p className="font-semibold text-xl">Add Record</p>
         <IoClose size={24} onClick={onCloseModal} />
       </div>
-      <div className="flex w-full">
-        <div className="px-6 pt-5 pb-6 flex flex-col gap-5">
-          <div className="rounded-[100px] bg-[#F3F4F6] flex gap-1">
-            <div
-              onClick={() => handleIncomeOrExpense("Expense")}
-              className={`py-2 px-[55.5px] ${textColorExpense} font-normal text-base rounded-3xl bg-[${Expensebackground}]`}
-              style={{ backgroundColor: Expensebackground }}
-            >
-              Expense
+      <form>
+        <div className="flex w-full">
+          <div className="px-6 pt-5 pb-6 flex flex-col gap-5">
+            <div className="rounded-[100px] bg-[#F3F4F6] flex gap-1">
+              <div
+                onClick={() => handleIncomeOrExpense("Expense")}
+                className={`py-2 px-[55.5px] ${textColorExpense} font-normal text-base rounded-3xl bg-[${Expensebackground}]`}
+                style={{ backgroundColor: Expensebackground }}
+              >
+                Expense
+              </div>
+              <div
+                onClick={() => handleIncomeOrExpense("Income")}
+                className={`py-2 px-[55.5px] ${textColorIncome} font-normal text-base rounded-3xl bg-[${Incomebackground}]`}
+                style={{ backgroundColor: Incomebackground }}
+              >
+                Income
+              </div>
             </div>
-            <div
-              onClick={() => handleIncomeOrExpense("Income")}
-              className={`py-2 px-[55.5px] ${textColorIncome} font-normal text-base rounded-3xl bg-[${Incomebackground}]`}
-              style={{ backgroundColor: Incomebackground }}
-            >
-              Income
-            </div>
-          </div>
-          <div className="flex flex-col mb-3 gap-[22px]">
-            <div className="flex flex-col py-3 px-4 bg-[#F3F4F6] border border-[#D1D5DB] rounded-xl">
-              <p className="font-normal text-base"> Amount </p>
-              <input
-                type="number"
-                placeholder="₮ 000.00"
-                className="font-normal text-xl bg-[#F3F4F6]"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <p> Category </p>
-              <select className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg">
-                <option defaultChecked> Find or choose category</option>
-                <option>
+            <div className="flex flex-col mb-3 gap-[22px]">
+              <div className="flex flex-col py-3 px-4 bg-[#F3F4F6] border border-[#D1D5DB] rounded-xl">
+                <p>Name</p>
+                <input
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  name="name"
+                  type="text"
+                  placeholder="name"
+                  className="font-normal text-xl bg-[#F3F4F6]"
+                />
+              </div>
+              <div className="flex flex-col py-3 px-4 bg-[#F3F4F6] border border-[#D1D5DB] rounded-xl">
+                <p className="font-normal text-base"> Amount </p>
+                <input
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                  }}
+                  name="amount"
+                  type="number"
+                  placeholder="₮ 000.00"
+                  className="font-normal text-xl bg-[#F3F4F6]"
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <p> Category </p>
+                <select className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg">
+                  <option defaultChecked> Find or choose category</option>
                   {categories.map((category) => {
                     return (
-                      <option className="px-[18px] py-2 flex gap-3">
+                      <option
+                        className="px-[18px] py-2 flex gap-3"
+                        key={category.categoryid}
+                        value={category.categoryid}
+                      >
                         {category.category_name}
                       </option>
                     );
                   })}
-                </option>
-                <option>kkk</option>
-              </select>
-            </div>
-            <div className="flex gap-2">
-              <div className="flex flex-col gap-2 w-full">
-                <p>Date</p>
-                <input
-                  type="date"
-                  defaultValue={`${year}-${month}-${day}`}
-                  className="py-3 px-4 bg-[#F9FAFB] border border-[#D1D5DB] rounded-lg"
-                />
+                  <option className="px-[18px] py-2 flex gap-3">Food</option>
+                  <option> Home </option>
+                </select>
               </div>
-              <div className="flex flex-col gap-2 w-full">
-                <p>Time</p>
-                <input
-                  type="time"
-                  defaultValue={`${hour}:${minutes}`}
-                  className="py-3 px-4 bg-[#F9FAFB] border border-[#D1D5DB] rounded-lg"
-                />
+              <div className="flex gap-2">
+                <div className="flex flex-col gap-2 w-full">
+                  <p>Date</p>
+                  <input
+                    type="date"
+                    defaultValue={`${year}-${month}-${day}`}
+                    className="py-3 px-4 bg-[#F9FAFB] border border-[#D1D5DB] rounded-lg"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 w-full">
+                  <p>Time</p>
+                  <input
+                    name="time"
+                    type="time"
+                    defaultValue={`${hour}:${minutes}`}
+                    className="py-3 px-4 bg-[#F9FAFB] border border-[#D1D5DB] rounded-lg"
+                  />
+                </div>
               </div>
             </div>
+            <button
+              onClick={() => handleAdd()}
+              className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
+              style={{ backgroundColor: buttonColor }}
+            >
+              Add Record
+            </button>
           </div>
-          <button
-            onClick={createRecord}
-            className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
-            style={{ backgroundColor: buttonColor }}
-          >
-            Add Record
-          </button>
+          <div className="flex flex-col gap-2 px-6 pb-6 pt-[18px] w-full ">
+            <p className="text-[#1F2937]">Description</p>
+            <textarea
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+              name="description"
+              placeholder="Write here"
+              className="bg-[#F3F4F6] pt-4 pl-4 border border-[#D1D5DB] w-full h-full rounded-lg"
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-2 px-6 pb-6 pt-[18px] w-full ">
-          <p className="text-[#1F2937]">Description</p>
-          <textarea
-            placeholder="Write here"
-            className="bg-[#F3F4F6] pt-4 pl-4 border border-[#D1D5DB] w-full h-full rounded-lg"
-          />
-        </div>
-      </div>
+      </form>
     </div>
   );
 };

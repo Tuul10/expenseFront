@@ -10,7 +10,7 @@ export const Categories = () => {
     "http://localhost:8000/category",
     fetcher
   );
-  console.log(data);
+
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 

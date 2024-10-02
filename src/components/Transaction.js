@@ -15,7 +15,7 @@ export const Transaction = () => {
 
   return (
     <div>
-      {data?.records.map((record) => {
+      {data.records.map((record) => {
         return (
           <div key={record.reordid}>
             <OneRecord
