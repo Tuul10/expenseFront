@@ -10,6 +10,8 @@ export const Categories = () => {
     "http://localhost:8000/category",
     fetcher
   );
+  
+  
 
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
@@ -19,7 +21,7 @@ export const Categories = () => {
       <h1 className="font-semibold text-base text-[#1F2937] mb-3">
         Categories
       </h1>
-      {data.map((category) => {
+      {data.categories?.map((category) => {
         return (
           <Category
             data={data}

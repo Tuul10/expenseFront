@@ -11,120 +11,30 @@ import { Categories } from "@/components/Categories";
 import AddRecord from "@/components/AddRecord";
 import { Transaction } from "@/components/Transaction";
 
-const categories = [
-  "Food & Drinks",
-  "Lending & Renting",
-  "Shopping",
-  "Housing",
-  "Transportation",
-  "Vehicle",
-  "Life & Entertainment",
-  "Communication, PC",
-  "Financial expenses",
-  "Investments",
-  "Income",
-  "Others",
-];
-const records = [
-  [
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-  ],
-  [
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#23E01F",
-      image: <RentIcon />,
-      time: "14:00",
-      text: "Lending & Renting",
-      money: "+ 1,000₮",
-      iconColor: "#0166FF",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-    {
-      color: "#F54949",
-      image: <FoodExpense />,
-      time: "14:00",
-      text: "Food & Drinks",
-      money: "- 1,000₮",
-      iconColor: "#FF4545",
-    },
-  ],
-];
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
 
   const [selected, setSelected] = useState("All");
-  const [myRecords, setRecords] = useState(records);
+  const [myRecords, setRecords] = useState();
+
+  const addCategory= async()=>{
+    await axios
+    .post("http://localhost:8000/category", {
+      category_name: name,
+      description: '',
+      category_image:""
+    })
+    .then(function (response) {
+      console.log(response.data.length);
+      if(response.data.length === 1) return router.push("/")
+        else console.log("amjiltgui");
+        
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
   const handleExpense = () => {
     const filtered = records.map((day) =>
@@ -231,7 +141,7 @@ const Home = (props) => {
               </div>
               <div className="flex gap-2 py-1.5 pl-3 items-center">
                 <PlusSign color={"#0166FF"} />
-                <p>Add category </p>
+                <p onClick={addCategory}>Add category </p>
               </div>
             </div>
           </div>

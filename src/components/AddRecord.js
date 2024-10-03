@@ -15,7 +15,9 @@ const AddRecord = (props) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState(0);
   const [transactionType, setTransactionType] = useState("");
-
+  const [value, setValue] = useState(0)
+  
+  
   const [name, setName] = useState("");
 
   const handleIncomeOrExpense = (props) => {
@@ -28,17 +30,6 @@ const AddRecord = (props) => {
     }
   };
 
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const response = await axios.get("http://localhost:8000/category");
-        setCategories(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUser();
-  }, []);
 
   const handleAdd = async () => {
     await axios
@@ -48,7 +39,7 @@ const AddRecord = (props) => {
         amount: amount,
         transaction_type: incomeExpense,
         description: description,
-        gategoryid: categories.categoryid,
+        gategoryid: value,
       })
       .then(function (response) {
         console.log(response);
@@ -57,6 +48,10 @@ const AddRecord = (props) => {
         console.log(error);
       });
   };
+
+  const OnchangeValue = (e)=>{
+    setValue(e.target.value)
+  }
 
   const Expensebackground = incomeExpense === "Expense" ? "#0166FF" : "#F3F4F6";
   const Incomebackground = incomeExpense === "Income" ? "#16A34A" : "#F3F4F6";
@@ -125,7 +120,7 @@ const AddRecord = (props) => {
               </div>
               <div className="flex flex-col gap-2">
                 <p> Category </p>
-                <select className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg">
+                <select   onChange={OnchangeValue} className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg">
                   <option defaultChecked> Find or choose category</option>
                   {categories.map((category) => {
                     return (
@@ -133,6 +128,7 @@ const AddRecord = (props) => {
                         className="px-[18px] py-2 flex gap-3"
                         key={category.categoryid}
                         value={category.categoryid}
+                      
                       >
                         {category.category_name}
                       </option>

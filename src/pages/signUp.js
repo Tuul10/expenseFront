@@ -1,32 +1,56 @@
 import Link from "next/link";
 import Logo from "../../public/icons/Logo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
+  const router = useRouter()
+  
+ 
 
-  const signUpClick = () => {
-    const information = {
-      name: name,
-      email: email,
-      password: password,
-    };
-    if (password !== rePassword) {
-      console.log("Davtsan password buruu baina");
-    } else {
-    }
-    axios.post("http://localhost:8000/user", {
-      email: email,
-      name: name,
-      password: password,
-      avatar_img: "https://i.pravatar.cc/300",
-    });
-  };
+  
 
+
+const SignUp = async()=>{
+  await axios
+  .post("http://localhost:8000/users", {
+    email: email,
+    user_name: name,
+    user_password: password,
+    avatar_im: ""
+  })
+  .then(function (response) {
+    console.log(response);
+    
+     localStorage.setItem("users", JSON.stringify(response.data.users))
+
+     if(password != rePassword) return console.log("pass zursuun")
+     else router.push("/signIn")
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+   
+    // localStorage.serItem("users", JSON.stringify(users))
+
+  // const signUpClick = async() => {
+   
+  //   await axios.post("http://localhost:8000/users", {
+  //     email: email,
+  //     user_name: name,
+  //     user_password: password,
+  //     avatar_im: "https://i.pravatar.cc/300"
+  //   });
+  // };
+
+
+  
   const handleName = (event) => {
     setName(event.target.value);
   };
@@ -84,7 +108,7 @@ const SignUp = () => {
               placeholder="Re-password"
             />
             <button
-              onClick={() => signUpClick()}
+              onClick={SignUp}
               className="bg-[#0166FF] justify-center font-normal text-xl flex items-center text-white text-center py-2.5 w-full rounded-3xl"
             >
               Sign up

@@ -137,7 +137,7 @@ const Records = () => {
   const [showAdd, setShowAdd] = useState(false);
 
   const [selected, setSelected] = useState("All");
-  const [myRecords, setRecords] = useState(records);
+  const [myRecords, setRecords] = useState();
 
   const [selectedCategories, setSelectedCategories] = useState(categories);
   const [selectedEyes, setSelectedEyes] = useState(checked);
