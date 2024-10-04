@@ -1,4 +1,5 @@
 import moment from "moment";
+import { IoClose } from "react-icons/io5";
 
 const OneRecord = (props) => {
   const { text, image, time, color, money, iconColor } = props;
@@ -21,7 +22,9 @@ const OneRecord = (props) => {
           </p>
         </div>
       </div>
-      <p className={`font-semibold text-base text-[${color}]`}> {money} </p>
+      <div>
+        <p className={`font-semibold text-base text-[${color}]`}> {money} </p>
+      </div>
     </div>
   );
 };

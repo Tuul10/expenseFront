@@ -5,29 +5,25 @@ import { useRouter } from "next/router";
 import axios from "axios";
 
 const SignIn = () => {
-const [email, setEmail]= useState("")
-const [password, setPassword] = useState("")
-const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
 
-
-    const Login = async()=>{
-      await axios
+  const Login = async () => {
+    await axios
       .post("http://localhost:8000/users/signin", {
         email: email,
         user_password: password,
-       
       })
       .then(function (response) {
-        console.log(response.data.length);
-        if(response.data.length === 1) return router.push("/")
-          else console.log("amjiltgui");
-          
+        localStorage.setItem("userid", JSON.stringify(response.data[0].userid));
+        if (response.data.length === 1) return router.push("/");
+        else console.log("amjiltgui");
       })
       .catch(function (error) {
         console.log(error);
       });
-  
-    }
+  };
 
   return (
     <div className="flex w-screen h-screen">
@@ -47,12 +43,12 @@ const router = useRouter()
           </div>
           <div className="flex flex-col gap-4 w-full">
             <input
-            onChange={(e)=> setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="px-4 py-3 w-full rounded-lg bg-[#F3F4F6] border border-[#D1D5DB]"
               placeholder="Email"
             />
             <input
-            onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className="px-4 py-3 w-full rounded-lg bg-[#F3F4F6] border border-[#D1D5DB]"
               placeholder="Password"
             />

@@ -9,38 +9,29 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
-  const router = useRouter()
-  
- 
+  const router = useRouter();
 
-  
+  const SignUp = async () => {
+    await axios
+      .post("http://localhost:8000/users", {
+        email: email,
+        user_name: name,
+        user_password: password,
+        avatar_im: "",
+      })
+      .then(function (response) {
+        if (password != rePassword) return console.log("pass zursuun");
+        else router.push("/signIn");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
-
-const SignUp = async()=>{
-  await axios
-  .post("http://localhost:8000/users", {
-    email: email,
-    user_name: name,
-    user_password: password,
-    avatar_im: ""
-  })
-  .then(function (response) {
-    console.log(response);
-    
-     localStorage.setItem("users", JSON.stringify(response.data.users))
-
-     if(password != rePassword) return console.log("pass zursuun")
-     else router.push("/signIn")
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
-   
-    // localStorage.serItem("users", JSON.stringify(users))
+  // localStorage.serItem("users", JSON.stringify(users))
 
   // const signUpClick = async() => {
-   
+
   //   await axios.post("http://localhost:8000/users", {
   //     email: email,
   //     user_name: name,
@@ -49,8 +40,6 @@ const SignUp = async()=>{
   //   });
   // };
 
-
-  
   const handleName = (event) => {
     setName(event.target.value);
   };

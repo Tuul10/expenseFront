@@ -10,31 +10,13 @@ import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import { Categories } from "@/components/Categories";
 import AddRecord from "@/components/AddRecord";
 import { Transaction } from "@/components/Transaction";
-
+import { AddCategory } from "@/components/AddCategory";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
-
+  const [showCategory, setShowCategory] = useState(false);
   const [selected, setSelected] = useState("All");
   const [myRecords, setRecords] = useState();
-
-  const addCategory= async()=>{
-    await axios
-    .post("http://localhost:8000/category", {
-      category_name: name,
-      description: '',
-      category_image:""
-    })
-    .then(function (response) {
-      console.log(response.data.length);
-      if(response.data.length === 1) return router.push("/")
-        else console.log("amjiltgui");
-        
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
 
   const handleExpense = () => {
     const filtered = records.map((day) =>
@@ -56,6 +38,10 @@ const Home = (props) => {
     setSelected(option);
   };
 
+  const handleAddCategory = () => {
+    setShowCategory(!showCategory);
+  };
+
   const handleAdd = () => {
     setShowAdd(!showAdd);
   };
@@ -66,6 +52,11 @@ const Home = (props) => {
       {showAdd && (
         <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-gray-400 flex justify-center items-center">
           <AddRecord onCloseModal={handleAdd} />
+        </div>
+      )}
+      {showCategory && (
+        <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-[white] flex justify-center items-center">
+          <AddCategory onCloseModal={handleAddCategory} />
         </div>
       )}
       <div className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative`}>
@@ -127,21 +118,12 @@ const Home = (props) => {
 
                 <p className="font-normal text-base opacity-20"> Clear </p>
               </div>
-              <div className="flex flex-col gap-2">
-                {/* {categories.map((category1, index) => {
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => handleCategory(selectedEyes[index], index)}
-                    >
-                      <MyCategories categoryName={category1} />
-                    </div>
-                  );
-                })} */}
-              </div>
+              <div className="flex flex-col gap-2"></div>
               <div className="flex gap-2 py-1.5 pl-3 items-center">
                 <PlusSign color={"#0166FF"} />
-                <p onClick={addCategory}>Add category </p>
+                <button onClick={() => handleAddCategory()}>
+                  Add category{" "}
+                </button>
               </div>
             </div>
           </div>
@@ -164,19 +146,6 @@ const Home = (props) => {
             <div className="flex flex-col gap-3">
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
-                {/* {myRecords[0].map((recordToday, index) => {
-                  return (
-                    <OneRecord
-                      key={index}
-                      text={recordToday.text}
-                      image={recordToday.image}
-                      time={recordToday.time}
-                      color={recordToday.color}
-                      money={recordToday.money}
-                      iconColor={recordToday.iconColor}
-                    />
-                  );
-                })} */}
                 <Transaction />
               </div>
               <p className="font-semibold text-base"> Yesterday </p>
