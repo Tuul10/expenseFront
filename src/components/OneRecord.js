@@ -2,6 +2,7 @@ import moment from "moment";
 import { IoClose } from "react-icons/io5";
 
 const OneRecord = (props) => {
+  const { deleteModal } = props;
   const { text, image, time, color, money, iconColor } = props;
 
   return (
@@ -22,7 +23,7 @@ const OneRecord = (props) => {
           </p>
         </div>
       </div>
-      <div>
+      <div className="flex">
         <p className={`font-semibold text-base text-[${color}]`}> {money} </p>
       </div>
     </div>

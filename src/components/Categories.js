@@ -1,33 +1,53 @@
-import useSWR from "swr";
 import Category from "./Category";
-import { useQueryState } from "nuqs";
 import { useEffect, useState } from "react";
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+import axios from "axios";
 
 export const Categories = () => {
-  const { data, error, isLoading } = useSWR(
-    "http://localhost:8000/category",
-    fetcher
-  );
-  
-  
+  const [categories, setCategories] = useState([]);
 
-  if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/category");
+        console.log(response);
+
+        setCategories(response.data.categories);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUser();
+  }, []);
+
+  const deleteCategory = async (categoryid) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/category/${categoryid}`
+      );
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category.categoryid !== categoryid)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
       <h1 className="font-semibold text-base text-[#1F2937] mb-3">
         Categories
       </h1>
-      {data.categories?.map((category) => {
+      {categories.map((category) => {
         return (
-          <Category
-            data={data}
-            key={category.categoryid}
-            categoryName={category.category_name}
-          />
+          <div key={category.categoryid}>
+            <Category categoryName={category.category_name} />
+            <button
+              className="text-black"
+              onClick={() => deleteCategory(category.categoryid)}
+            >
+              x
+            </button>
+          </div>
         );
       })}
     </div>
