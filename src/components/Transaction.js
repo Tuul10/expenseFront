@@ -4,20 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export const Transaction = (props) => {
-  const [records, setRecords] = useState([]);
-
-  useEffect(() => {
-    const getRecords = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/records");
-        setRecords(response.data.records);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getRecords();
-  }, []);
-
+  const { records, setRecords } = props;
   const deleteRecord = async (recordid) => {
     try {
       const response = await axios.delete(
@@ -34,16 +21,18 @@ export const Transaction = (props) => {
   return (
     <div>
       {records.map((record) => (
-        <div key={record.recordid}>
+        <div className="flex" key={record.recordid}>
           <OneRecord
             text={record.record_name}
             time={record.createdat}
-            image={<FoodExpense />}
             money={record.amount}
+            transactionType={record.transaction_type}
           />
-          <button type="button" onClick={() => deleteRecord(record.recordid)}>
-            Delete
-          </button>
+          <div>
+            <button type="button" onClick={() => deleteRecord(record.recordid)}>
+              X
+            </button>
+          </div>
         </div>
       ))}
     </div>

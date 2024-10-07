@@ -16,7 +16,6 @@ const AddRecord = (props) => {
   const [amount, setAmount] = useState(0);
   const [value, setValue] = useState(0);
   const [name, setName] = useState("");
-  const [deleteRecord, setDeleteREcord] = useState();
 
   const handleIncomeOrExpense = (props) => {
     const { name } = props;
@@ -45,7 +44,7 @@ const AddRecord = (props) => {
   };
 
   useEffect(() => {
-    const getUser = async () => {
+    const getCategory = async () => {
       try {
         const response = await axios.get("http://localhost:8000/category");
         setCategories(response.data.categories);
@@ -53,28 +52,13 @@ const AddRecord = (props) => {
         console.error(error);
       }
     };
-    getUser();
+    getCategory();
   }, []);
 
   const OnchangeValue = (e) => {
     setValue(e.target.value);
   };
 
-  const handDeleteModal = async () => {
-    await axios
-      .post("http://localhost:8000/records", {
-        userid: 1,
-        record_name: name,
-        amount: amount,
-        transaction_type: incomeExpense,
-        description: description,
-        gategoryid: value,
-      })
-      .then(function (response) {})
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
   const Expensebackground = incomeExpense === "Expense" ? "#0166FF" : "#F3F4F6";
   const Incomebackground = incomeExpense === "Income" ? "#16A34A" : "#F3F4F6";
   const buttonColor = incomeExpense === "Income" ? "#16A34A" : "#0166FF";

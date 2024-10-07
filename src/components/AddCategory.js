@@ -1,22 +1,25 @@
 import axios from "axios";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { FaHouse } from "react-icons/fa6";
+import { SlArrowDown } from "react-icons/sl";
+import { IoFastFood } from "react-icons/io5";
+import { FaTaxi } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 
 export const AddCategory = (props) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const { onCloseModal } = props;
 
-  const addCategory = async () => {
+  const handleAddCategory = async () => {
     await axios
       .post("http://localhost:8000/category", {
         category_name: name,
         description: description,
-        category_image: "carBackround.png",
+        category_image: "",
       })
-      .then(function (response) {
-        console.log(response);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -28,35 +31,30 @@ export const AddCategory = (props) => {
         <IoClose size={24} onClick={onCloseModal} />
       </div>
       <div className="flex w-full">
-        <div className="px-6 pt-5 pb-6 flex flex-col gap-5"></div>
-        <div className="flex flex-col mb-3 gap-[22px]">
-          <div className="flex flex-col py-3 px-4 bg-[#F3F4F6] border border-[#D1D5DB] rounded-xl">
-            <p>Name</p>
+        <div className="px-6 pt-5 pb-6 flex flex-col gap-"></div>
+        <div className="flex  mb-3 mr-8 items-center justify-center">
+          <div className="flex mr-8">
+            <FaHouse />
+            <SlArrowDown />
+          </div>
+          <div className="flex flex-col px-1 py-1 bg-[#F3F4F6] border border-[#D1D5DB] rounded-xl">
             <input
               onChange={(e) => {
                 setName(e.target.value);
               }}
               name
               type="text"
-              placeholder="Category name"
+              placeholder="   name"
               className="font-normal text-xl bg-[#F3F4F6]"
             />
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2 px-6 pb-6 pt-[18px] w-full ">
-        <p className="text-[#1F2937]">Description</p>
-        <textarea
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-          name="description"
-          placeholder="Write here"
-          className="bg-[#F3F4F6] pt-4 pl-4 border border-[#D1D5DB] w-full h-full rounded-lg"
-        />
-      </div>
-      <div className="w-fit h-10 ml-auto px-5 bg-white rounded-md mr-4 mb-2 flex items-center justify-center">
-        <button onClick={addCategory}>Add Category</button>
+      <div
+        onClick={onCloseModal}
+        className="w-fit h-10 ml-auto px-5 bg-white rounded-md mr-4 mb-2 flex items-center justify-center"
+      >
+        <button onClick={() => handleAddCategory()}>Add Category</button>
       </div>
     </div>
   );

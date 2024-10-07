@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlusSign from "../../public/icons/PlusSign";
 import { FaChevronLeft, FaSearchengin } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
@@ -7,31 +7,48 @@ import { Categories } from "@/components/Categories";
 import AddRecord from "@/components/AddRecord";
 import { Transaction } from "@/components/Transaction";
 import { AddCategory } from "@/components/AddCategory";
+import axios from "axios";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
+  const [records, setRecords] = useState([]);
   const [selected, setSelected] = useState("All");
-  const [myRecords, setRecords] = useState();
+  const [filteredRecords, setFilteredRecords] = useState([]);
+
+  useEffect(() => {
+    const getRecords = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/records");
+        setRecords(response.data.records);
+        setFilteredRecords(response.data.records);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getRecords();
+  }, []);
 
   const handleExpense = () => {
-    const filtered = records.map((day) =>
-      day.filter((oneRecord) => oneRecord.money.includes("-"))
+    const array = records.filter(
+      (record) => record.transaction_type === "Expense"
     );
-    setRecords(filtered);
+    setFilteredRecords(array);
   };
   const handleIncome = () => {
-    const filtered = records.map((day) =>
-      day.filter((oneRecord) => oneRecord.money.includes("+"))
+    const findIndex = records.filter(
+      (record) => record.transaction_type === "Income"
     );
-    console.log(filtered);
-    setRecords(filtered);
+
+    setFilteredRecords(findIndex);
   };
-  const handleAll = () => {
-    setRecords(records);
-  };
+
   const handleChange = (option) => {
     setSelected(option);
+  };
+
+  const handleAll = () => {
+    setFilteredRecords(records);
   };
 
   const handleAddCategory = () => {
@@ -103,7 +120,7 @@ const Home = (props) => {
                   checked={"Expense" === selected}
                   className="checkbox"
                   onChange={() => handleChange("Expense")}
-                  onClick={() => handleExpense()}
+                  onClick={handleExpense}
                 />
                 Expense
               </div>
@@ -118,7 +135,7 @@ const Home = (props) => {
               <div className="flex gap-2 py-1.5 pl-3 items-center">
                 <PlusSign color={"#0166FF"} />
                 <button onClick={() => handleAddCategory()}>
-                  Add category{" "}
+                  Add category
                 </button>
               </div>
             </div>
@@ -142,7 +159,7 @@ const Home = (props) => {
             <div className="flex flex-col gap-3">
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
-                <Transaction />
+                {/* <Transaction records={filteredRecords} /> */}
               </div>
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">
@@ -159,7 +176,10 @@ const Home = (props) => {
                     />
                   );
                 })} */}
-                <Transaction />
+                <Transaction
+                  records={filteredRecords}
+                  setRecords={setFilteredRecords}
+                />
               </div>
             </div>
           </div>
