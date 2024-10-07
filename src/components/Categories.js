@@ -9,7 +9,6 @@ export const Categories = () => {
     const getUser = async () => {
       try {
         const response = await axios.get("http://localhost:8000/category");
-        console.log(response);
 
         setCategories(response.data.categories);
       } catch (error) {
@@ -39,10 +38,13 @@ export const Categories = () => {
       </h1>
       {categories.map((category) => {
         return (
-          <div key={category.categoryid}>
+          <div
+            className="flex items-center justify-center"
+            key={category.categoryid}
+          >
             <Category categoryName={category.category_name} />
             <button
-              className="text-black"
+              className="text-black ml-4 "
               onClick={() => deleteCategory(category.categoryid)}
             >
               x
