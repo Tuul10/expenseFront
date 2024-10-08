@@ -2,6 +2,7 @@ import OneRecord from "./OneRecord";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useQueryState } from "nuqs";
 
 export const Transaction = (props) => {
   const { records, setRecords } = props;

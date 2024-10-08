@@ -8,6 +8,7 @@ import AddRecord from "@/components/AddRecord";
 import { Transaction } from "@/components/Transaction";
 import { AddCategory } from "@/components/AddCategory";
 import axios from "axios";
+import { useQueryState } from "nuqs";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
@@ -17,6 +18,7 @@ const Home = (props) => {
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
+  const [categoryName] = useQueryState("");
 
   const getCategory = async () => {
     try {
@@ -43,6 +45,13 @@ const Home = (props) => {
   const filteredCategories = filteredRecords.filter((record) => {
     if (!search) return true;
     return record.category_name.toLowerCase().includes(search?.toLowerCase());
+  });
+
+  const checkedCategories = filteredCategories.filter((record) => {
+    if (record.categoryName === "") {
+      return record;
+    }
+    return record.category_name.includes(categoryName);
   });
 
   useEffect(() => {
@@ -96,7 +105,7 @@ const Home = (props) => {
         </div>
       )}
       <div
-        className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative h-[100vh]`}
+        className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative h-[100%]`}
       >
         <Navbar />
 
@@ -156,6 +165,7 @@ const Home = (props) => {
                 <Categories
                   categories={categories}
                   setCategories={setCategories}
+                  // filterCategories={checkedCategories}
                 />
 
                 <p className="font-normal text-base opacity-20"> Clear </p>
@@ -193,7 +203,7 @@ const Home = (props) => {
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">
                 <Transaction
-                  records={filteredCategories}
+                  records={checkedCategories}
                   setRecords={setFilteredRecords}
                 />
               </div>
