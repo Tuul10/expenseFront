@@ -2,6 +2,7 @@ import moment from "moment";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import { FaHouse } from "react-icons/fa6";
 import { format } from "date-fns";
+import categoryIconByCategoryName from "@/util/findCategories";
 
 const OneRecord = (props) => {
   const { text, image, time, color, money, transactionType } = props;
@@ -15,6 +16,7 @@ const OneRecord = (props) => {
 
   const ImageType =
     transactionType === "Expense" ? <FoodExpense /> : <FaHouse />;
+  const icon = categoryIconByCategoryName(props);
 
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
@@ -25,7 +27,7 @@ const OneRecord = (props) => {
             backgroundColor: Expensebackground,
           }}
         >
-          {ImageType}
+          {icon?.image}
         </div>
         <div className="flex flex-col">
           <p className="font-normal text-base">{text}</p>

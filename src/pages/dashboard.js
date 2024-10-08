@@ -5,7 +5,7 @@ import IncomeLogo from "../../public/icons/IncomeLogo";
 
 const Dashboard = () => {
   return (
-    <div className="bg-[#F3F4F6] flex flex-col gap-8 items-center mx-auto w-[100vh]">
+    <div className="bg-[#F3F4F6] flex flex-col gap-8 items-center mx-auto w-[100vw] h-[100vh]">
       <Navbar />
       <div className="flex flex-col gap-6 w-full mx-auto">
         <div className="flex gap-6">

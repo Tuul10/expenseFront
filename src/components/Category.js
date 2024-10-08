@@ -4,9 +4,9 @@ import { useState } from "react";
 
 const Category = (props) => {
   const { categoryName, ischecked, onClick } = props;
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
 
-  const handleClick = () => {
+  const handleClickCategory = () => {
     if (checked === true) {
       setChecked(false);
     } else {
@@ -18,7 +18,7 @@ const Category = (props) => {
 
   return (
     <div
-      onClick={handleClick}
+      onClick={handleClickCategory}
       className="w-full pl-3 py-1.5 flex gap-2 items-center"
     >
       {icon}

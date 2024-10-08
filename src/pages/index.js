@@ -21,7 +21,6 @@ const Home = (props) => {
   const getCategory = async () => {
     try {
       const response = await axios.get("http://localhost:8000/category");
-
       setCategories(response.data.categories);
     } catch (error) {
       console.error(error);
@@ -96,7 +95,9 @@ const Home = (props) => {
           />
         </div>
       )}
-      <div className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative`}>
+      <div
+        className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative h-[100vh]`}
+      >
         <Navbar />
 
         <div className="flex gap-6">
@@ -113,7 +114,7 @@ const Home = (props) => {
             <input
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search"
-              className="border border-[#D1D5DB] rounded-lg px-4 py-1"
+              className="border border-[#D1D5DB] rounded-lg px-4 py-1 bg-white"
             />
             <div className="flex flex-col gap-1">
               <p className="font-semibold text-base text-[#1F2937] mb-3">

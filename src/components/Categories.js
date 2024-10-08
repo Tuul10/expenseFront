@@ -7,9 +7,7 @@ export const Categories = (props) => {
 
   const deleteCategory = async (categoryid) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/category/${categoryid}`
-      );
+      await axios.delete(`http://localhost:8000/category/${categoryid}`);
       setCategories((prevCategories) =>
         prevCategories.filter((category) => category.categoryid !== categoryid)
       );
