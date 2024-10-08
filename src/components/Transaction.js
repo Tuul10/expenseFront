@@ -5,11 +5,10 @@ import axios from "axios";
 
 export const Transaction = (props) => {
   const { records, setRecords } = props;
+
   const deleteRecord = async (recordid) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/records/${recordid}`
-      );
+      await axios.delete(`http://localhost:8000/records/${recordid}`);
       setRecords((prevRecords) =>
         prevRecords.filter((record) => record.recordid !== recordid)
       );
@@ -20,10 +19,10 @@ export const Transaction = (props) => {
 
   return (
     <div>
-      {records.map((record) => (
+      {records?.map((record) => (
         <div className="flex" key={record.recordid}>
           <OneRecord
-            text={record.record_name}
+            text={record.category_name}
             time={record.createdat}
             money={record.amount}
             transactionType={record.transaction_type}

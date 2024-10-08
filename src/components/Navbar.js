@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Logo from "../../public/icons/Logo";
 import AddRecord from "./AddRecord";
+import Link from "next/link";
 
 const Navbar = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -17,8 +18,12 @@ const Navbar = () => {
       )}
       <div className="flex gap-6 items-center">
         <Logo />
-        <p> Dashboard </p>
-        <p> Records</p>
+        <Link href={"/dashboard"}>
+          <p> Dashboard </p>
+        </Link>
+        <Link href={"/"}>
+          <p> Records</p>
+        </Link>
       </div>
       <div className="flex items-center gap-6">
         <button

@@ -17,7 +17,7 @@ const SignIn = () => {
       })
       .then(function (response) {
         localStorage.setItem("userid", JSON.stringify(response.data[0].userid));
-        if (response.data.length === 1) return router.push("/");
+        if (response.data.length === 1) return router.push("/dashboard");
         else console.log("amjiltgui");
       })
       .catch(function (error) {

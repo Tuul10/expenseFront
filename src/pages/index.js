@@ -15,17 +15,38 @@ const Home = (props) => {
   const [records, setRecords] = useState([]);
   const [selected, setSelected] = useState("All");
   const [filteredRecords, setFilteredRecords] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const getCategory = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/category");
+
+      setCategories(response.data.categories);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const getRecords = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/records");
-        setRecords(response.data.records);
-        setFilteredRecords(response.data.records);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    getCategory();
+  }, []);
+
+  const getRecords = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/records");
+      setRecords(response.data.records);
+      setFilteredRecords(response.data.records);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const filteredCategories = filteredRecords.filter((record) => {
+    if (!search) return true;
+    return record.category_name.toLowerCase().includes(search?.toLowerCase());
+  });
+
+  useEffect(() => {
     getRecords();
   }, []);
 
@@ -64,12 +85,15 @@ const Home = (props) => {
     <div>
       {showAdd && (
         <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-gray-400 flex justify-center items-center">
-          <AddRecord onCloseModal={handleAdd} />
+          <AddRecord onCloseModal={handleAdd} refetchRecords={getRecords} />
         </div>
       )}
       {showCategory && (
         <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-[white] flex justify-center items-center">
-          <AddCategory onCloseModal={handleAddCategory} />
+          <AddCategory
+            onCloseModal={handleAddCategory}
+            getCategory={getCategory}
+          />
         </div>
       )}
       <div className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative`}>
@@ -87,6 +111,7 @@ const Home = (props) => {
               </button>
             </div>
             <input
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search"
               className="border border-[#D1D5DB] rounded-lg px-4 py-1"
             />
@@ -127,7 +152,10 @@ const Home = (props) => {
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
-                <Categories />
+                <Categories
+                  categories={categories}
+                  setCategories={setCategories}
+                />
 
                 <p className="font-normal text-base opacity-20"> Clear </p>
               </div>
@@ -141,7 +169,7 @@ const Home = (props) => {
             </div>
           </div>
           <div className="w-[894px] flex flex-col gap-4">
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <div className="flex gap-4 items-center">
                 <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
                   <FaChevronLeft />
@@ -155,29 +183,16 @@ const Home = (props) => {
                 <option selected>Newest First</option>
                 <option> Latest First </option>
               </select>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-3">
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
-                {/* <Transaction records={filteredRecords} /> */}
+                <Transaction />
               </div>
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">
-                {/* {myRecords[1].map((recordToday, index) => {
-                  return (
-                    <OneRecord
-                      key={index}
-                      text={recordToday.text}
-                      image={recordToday.image}
-                      time={recordToday.time}
-                      color={recordToday.color}
-                      money={recordToday.money}
-                      iconColor={recordToday.iconColor}
-                    />
-                  );
-                })} */}
                 <Transaction
-                  records={filteredRecords}
+                  records={filteredCategories}
                   setRecords={setFilteredRecords}
                 />
               </div>

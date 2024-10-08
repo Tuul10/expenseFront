@@ -4,12 +4,21 @@ import { useState } from "react";
 
 const Category = (props) => {
   const { categoryName, ischecked, onClick } = props;
+  const [checked, setChecked] = useState(true);
 
-  const icon = ischecked ? <EyeIcon /> : <ClosedEyeIcon />;
+  const handleClick = () => {
+    if (checked === true) {
+      setChecked(false);
+    } else {
+      setChecked(true);
+    }
+  };
+
+  const icon = checked ? <EyeIcon /> : <ClosedEyeIcon />;
 
   return (
     <div
-      onClick={onClick}
+      onClick={handleClick}
       className="w-full pl-3 py-1.5 flex gap-2 items-center"
     >
       {icon}

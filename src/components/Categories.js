@@ -2,21 +2,8 @@ import Category from "./Category";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export const Categories = () => {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/category");
-
-        setCategories(response.data.categories);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUser();
-  }, []);
+export const Categories = (props) => {
+  const { categories, setCategories } = props;
 
   const deleteCategory = async (categoryid) => {
     try {
@@ -36,7 +23,7 @@ export const Categories = () => {
       <h1 className="font-semibold text-base text-[#1F2937] mb-3">
         Categories
       </h1>
-      {categories.map((category) => {
+      {categories?.map((category) => {
         return (
           <div
             className="flex items-center justify-center"

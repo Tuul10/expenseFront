@@ -6,23 +6,30 @@ import { SlArrowDown } from "react-icons/sl";
 import { IoFastFood } from "react-icons/io5";
 import { FaTaxi } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
+import { toast } from "sonner";
 
 export const AddCategory = (props) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const { onCloseModal } = props;
+  const { onCloseModal, getCategory } = props;
 
   const handleAddCategory = async () => {
-    await axios
-      .post("http://localhost:8000/category", {
+    if (!name) {
+      alert("hooson medeelel baina");
+    }
+    try {
+      await axios.post("http://localhost:8000/category", {
         category_name: name,
-        description: description,
+        description: "",
         category_image: "",
-      })
-      .then(function (response) {})
-      .catch(function (error) {
-        console.log(error);
       });
+
+      toast.success("success");
+      getCategory();
+    } catch (error) {
+      toast.error("error");
+      console.log(error);
+    }
   };
   return (
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">
@@ -42,7 +49,7 @@ export const AddCategory = (props) => {
               onChange={(e) => {
                 setName(e.target.value);
               }}
-              name
+              name="name"
               type="text"
               placeholder="   name"
               className="font-normal text-xl bg-[#F3F4F6]"

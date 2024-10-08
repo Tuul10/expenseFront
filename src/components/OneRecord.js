@@ -1,6 +1,7 @@
 import moment from "moment";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import { FaHouse } from "react-icons/fa6";
+import { format } from "date-fns";
 
 const OneRecord = (props) => {
   const { text, image, time, color, money, transactionType } = props;
@@ -29,7 +30,7 @@ const OneRecord = (props) => {
         <div className="flex flex-col">
           <p className="font-normal text-base">{text}</p>
           <p className="font-normal text-xs text-[#6B7280]">
-            {moment(time).format("ll")}
+            {moment().format("LT")}
           </p>
         </div>
       </div>

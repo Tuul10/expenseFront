@@ -5,11 +5,14 @@ import IncomeLogo from "../../public/icons/IncomeLogo";
 
 const Dashboard = () => {
   return (
-    <div className="bg-[#F3F4F6] flex flex-col gap-8 items-center">
+    <div className="bg-[#F3F4F6] flex flex-col gap-8 items-center mx-auto w-[100vh]">
       <Navbar />
-      <div className="flex flex-col gap-6 w-full px-[120px]">
+      <div className="flex flex-col gap-6 w-full mx-auto">
         <div className="flex gap-6">
-          <div className="w-full rounded-[18px] bg-[#0166FF]"></div>
+          <div className="w-full rounded-[18px] bg-[#0166FF] text-[#FFFFFF] justify-end flex flex-col p-12">
+            cash
+            <p>10,000,00</p>
+          </div>
           <Income
             color={"#84CC16"}
             title={"Your Income"}
