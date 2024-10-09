@@ -1,24 +1,26 @@
 import EyeIcon from "../../public/icons/EyeIcon";
 import ClosedEyeIcon from "../../public/icons/ClosedEyeIcon";
 import { useState } from "react";
+import { useQueryState } from "nuqs";
 
 const Category = (props) => {
-  const { categoryName, ischecked, onClick } = props;
-  const [checked, setChecked] = useState(false);
+  const { categoryName, ischecked, selected, onSelect } = props;
+  console.log(selected);
+  // const [checked, setChecked] = useState(false);
 
-  const handleClickCategory = () => {
-    if (checked === true) {
-      setChecked(false);
-    } else {
-      setChecked(true);
-    }
-  };
+  // const handleClickCategory = () => {
+  //   if (checked === true) {
+  //     setChecked(false);
+  //   } else {
+  //     setChecked(true);
+  //   }
+  // };
 
-  const icon = checked ? <EyeIcon /> : <ClosedEyeIcon />;
+  const icon = selected ? <EyeIcon /> : <ClosedEyeIcon />;
 
   return (
     <div
-      onClick={handleClickCategory}
+      onClick={onSelect}
       className="w-full pl-3 py-1.5 flex gap-2 items-center"
     >
       {icon}

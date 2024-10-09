@@ -5,7 +5,8 @@ import axios from "axios";
 import { useQueryState } from "nuqs";
 
 export const Transaction = (props) => {
-  const { records, setRecords } = props;
+  const { records, setRecords, categories } = props;
+  // console.log(categories);
 
   const deleteRecord = async (recordid) => {
     try {

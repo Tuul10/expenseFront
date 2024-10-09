@@ -9,6 +9,7 @@ import { Transaction } from "@/components/Transaction";
 import { AddCategory } from "@/components/AddCategory";
 import axios from "axios";
 import { useQueryState } from "nuqs";
+import Category from "@/components/Category";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
@@ -18,16 +19,34 @@ const Home = (props) => {
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
-  const [categoryName] = useQueryState("");
-
+  const [categoryId, setCategoryId] = useState(0);
+  const [categoryName, setCategoryName] = useState({});
   const getCategory = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/category");
-      setCategories(response.data.categories);
+      const response = await axios.get(`http://localhost:8000/category`);
+      const categories = response.data.categories.map((category) => {
+        return { ...category, selected: true };
+      });
+      setCategories(categories);
     } catch (error) {
       console.error(error);
     }
   };
+  // console.log(categories);
+
+  // const handleSelectcategory = async (category) => {
+  //   setCategoryName(category.category_name);
+  //   setCategoryId(category.categoryid);
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:8000/records/${category.categoryid}`
+  //     );
+  //     setFilteredRecords(response.data.records);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // console.log(filteredRecords);
 
   useEffect(() => {
     getCategory();
@@ -45,13 +64,6 @@ const Home = (props) => {
   const filteredCategories = filteredRecords.filter((record) => {
     if (!search) return true;
     return record.category_name.toLowerCase().includes(search?.toLowerCase());
-  });
-
-  const checkedCategories = filteredCategories.filter((record) => {
-    if (record.categoryName === "") {
-      return record;
-    }
-    return record.category_name.includes(categoryName);
   });
 
   useEffect(() => {
@@ -165,6 +177,7 @@ const Home = (props) => {
                 <Categories
                   categories={categories}
                   setCategories={setCategories}
+                  // handleSelectcategory={handleSelectcategory}
                   // filterCategories={checkedCategories}
                 />
 
@@ -203,8 +216,9 @@ const Home = (props) => {
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">
                 <Transaction
-                  records={checkedCategories}
+                  records={filteredCategories}
                   setRecords={setFilteredRecords}
+                  categories={categories}
                 />
               </div>
             </div>
