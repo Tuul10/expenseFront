@@ -19,38 +19,42 @@ const Home = (props) => {
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
-  const [categoryId, setCategoryId] = useState(0);
-  const [categoryName, setCategoryName] = useState({});
+
   const getCategory = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/category`);
       const categories = response.data.categories.map((category) => {
         return { ...category, selected: true };
       });
+      console.log(categories);
+
       setCategories(categories);
     } catch (error) {
       console.error(error);
     }
   };
-  // console.log(categories);
-
-  // const handleSelectcategory = async (category) => {
-  //   setCategoryName(category.category_name);
-  //   setCategoryId(category.categoryid);
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:8000/records/${category.categoryid}`
-  //     );
-  //     setFilteredRecords(response.data.records);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  // console.log(filteredRecords);
-
   useEffect(() => {
     getCategory();
   }, []);
+
+  const handleSelectcategory = async (selectedCategory) => {
+    const updatedCategories = categories.map((category) => {
+      if (category.categoryid === selectedCategory.categoryid) {
+        return { ...category, selected: !category.selected };
+      }
+      return category;
+    });
+    setCategories(updatedCategories);
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/records/${category.categoryid}`
+      );
+      setFilteredRecords(response.data.records);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getRecords = async () => {
     try {
@@ -177,7 +181,7 @@ const Home = (props) => {
                 <Categories
                   categories={categories}
                   setCategories={setCategories}
-                  // handleSelectcategory={handleSelectcategory}
+                  handleSelectcategory={handleSelectcategory}
                   // filterCategories={checkedCategories}
                 />
 

@@ -1,22 +1,8 @@
 import Category from "./Category";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useQueryState } from "nuqs";
 
 export const Categories = (props) => {
-  const { categories, setCategories, filterCategories, handleSelectcategory } =
-    props;
-  const onSelectedCategory = (selectedCategory) => {
-    const updatedCategories = categories.map((category) => {
-      if (category.categoryid === selectedCategory.categoryid) {
-        return { ...category, selected: false };
-      }
-      return category;
-    });
-    setCategories(updatedCategories);
-  };
-
-  // console.log(categories);
+  const { categories, handleSelectcategory } = props;
 
   return (
     <div>
@@ -30,7 +16,7 @@ export const Categories = (props) => {
               className="flex items-center justify-center"
               key={category.categoryid}
               value={category.category_name}
-              // onClick={() => handleSelectcategory(category)}
+              onClick={() => handleSelectcategory(category)}
               categoryId={category.categoryid}
             >
               <Category

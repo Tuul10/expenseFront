@@ -1,20 +1,9 @@
 import EyeIcon from "../../public/icons/EyeIcon";
 import ClosedEyeIcon from "../../public/icons/ClosedEyeIcon";
-import { useState } from "react";
-import { useQueryState } from "nuqs";
 
 const Category = (props) => {
-  const { categoryName, ischecked, selected, onSelect } = props;
+  const { categoryName, selected, onSelect } = props;
   console.log(selected);
-  // const [checked, setChecked] = useState(false);
-
-  // const handleClickCategory = () => {
-  //   if (checked === true) {
-  //     setChecked(false);
-  //   } else {
-  //     setChecked(true);
-  //   }
-  // };
 
   const icon = selected ? <EyeIcon /> : <ClosedEyeIcon />;
 

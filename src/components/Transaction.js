@@ -8,6 +8,15 @@ export const Transaction = (props) => {
   const { records, setRecords, categories } = props;
   // console.log(categories);
 
+  const filteredRecord = records?.filter((record) => {
+    const category = categories.find(
+      (category) => category.categoryid === record.categoryid
+    );
+    console.log(category);
+
+    return category.selected;
+  });
+
   const deleteRecord = async (recordid) => {
     try {
       await axios.delete(`http://localhost:8000/records/${recordid}`);
@@ -21,7 +30,7 @@ export const Transaction = (props) => {
 
   return (
     <div>
-      {records?.map((record) => (
+      {filteredRecord?.map((record) => (
         <div className="flex" key={record.recordid}>
           <OneRecord
             text={record.category_name}
