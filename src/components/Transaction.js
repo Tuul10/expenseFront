@@ -12,7 +12,6 @@ export const Transaction = (props) => {
     const category = categories.find(
       (category) => category.categoryid === record.categoryid
     );
-    console.log(category);
 
     return category.selected;
   });
@@ -29,20 +28,17 @@ export const Transaction = (props) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       {filteredRecord?.map((record) => (
-        <div className="flex" key={record.recordid}>
+        <div className="flex g-3" key={record.recordid}>
           <OneRecord
             text={record.category_name}
             time={record.createdat}
             money={record.amount}
             transactionType={record.transaction_type}
+            onClick={() => deleteRecord(record.recordid)}
           />
-          <div>
-            <button type="button" onClick={() => deleteRecord(record.recordid)}>
-              X
-            </button>
-          </div>
+          <div></div>
         </div>
       ))}
     </div>

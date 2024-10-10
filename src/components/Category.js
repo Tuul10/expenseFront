@@ -1,11 +1,10 @@
-import EyeIcon from "../../public/icons/EyeIcon";
 import ClosedEyeIcon from "../../public/icons/ClosedEyeIcon";
+import { FaEye } from "react-icons/fa";
 
 const Category = (props) => {
   const { categoryName, selected, onSelect } = props;
-  console.log(selected);
 
-  const icon = selected ? <EyeIcon /> : <ClosedEyeIcon />;
+  const icon = selected ? <FaEye /> : <ClosedEyeIcon />;
 
   return (
     <div

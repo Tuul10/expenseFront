@@ -10,6 +10,7 @@ import { AddCategory } from "@/components/AddCategory";
 import axios from "axios";
 import { useQueryState } from "nuqs";
 import Category from "@/components/Category";
+import moment from "moment";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
@@ -74,12 +75,25 @@ const Home = (props) => {
     getRecords();
   }, []);
 
+  const selectNewest = () => {
+    const recordNewest = records.filter((record) => {
+      if (record.createdAt) {
+      }
+    });
+  };
+  const todayRecords = filteredRecords.filter((record) => {
+    if (record.createdAt === moment().format("L")) {
+      return record;
+    }
+  });
+
   const handleExpense = () => {
     const array = records.filter(
       (record) => record.transaction_type === "Expense"
     );
     setFilteredRecords(array);
   };
+
   const handleIncome = () => {
     const findIndex = records.filter(
       (record) => record.transaction_type === "Income"
@@ -197,7 +211,7 @@ const Home = (props) => {
             </div>
           </div>
           <div className="w-[894px] flex flex-col gap-4">
-            {/* <div className="flex justify-between">
+            <div className="flex justify-between">
               <div className="flex gap-4 items-center">
                 <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
                   <FaChevronLeft />
@@ -209,13 +223,17 @@ const Home = (props) => {
               </div>
               <select className="w-[180px] py-3 px-4 rounded-lg font-semibold text-base text-[#1F2937] border border-[#D1D5DB]">
                 <option selected>Newest First</option>
-                <option> Latest First </option>
+                <option>Oldest </option>
               </select>
-            </div> */}
+            </div>
             <div className="flex flex-col gap-3">
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
-                <Transaction />
+                <Transaction
+                  records={todayRecords}
+                  setRecords={setFilteredRecords}
+                  categories={categories}
+                />
               </div>
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">

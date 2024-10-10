@@ -1,4 +1,14 @@
+import { useContext } from "react";
+import { ThemeContext } from "./ThemeContext";
+
 const Income = (props) => {
+  const { records } = useContext(ThemeContext);
+  const amount = records.filter((record) => {
+    if (record.transaction_type === "Expense") {
+      return record.amount;
+    }
+  });
+
   const { color, title, money, text, description, icon } = props;
   return (
     <div className="flex flex-col rounded-xl bg-white w-full">
@@ -7,7 +17,7 @@ const Income = (props) => {
         <p className="font-semibold text-base text-[#0F172A]"> {title} </p>
       </div>
       <div className="flex flex-col py-6 pl-6">
-        <p className="font-semibold text-4xl mb-1"> {money} </p>
+        <p className="font-semibold text-4xl mb-1">{money}</p>
         <p className="font-normal text-lg text-[#64748B] mb-4"> {text} </p>
         <div className="flex gap-2 items-center">
           {icon}

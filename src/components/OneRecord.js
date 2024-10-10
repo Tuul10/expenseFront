@@ -3,9 +3,13 @@ import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import { FaHouse } from "react-icons/fa6";
 import { format } from "date-fns";
 import categoryIconByCategoryName from "@/util/findCategories";
+import { FiMoreVertical } from "react-icons/fi";
+import { useState } from "react";
+import { FaEye } from "react-icons/fa";
 
 const OneRecord = (props) => {
-  const { text, image, time, color, money, transactionType } = props;
+  const [show, setShow] = useState(false);
+  const { text, image, time, color, money, transactionType, onclick } = props;
 
   const Expensebackground =
     transactionType === "Expense" ? "#0166FF" : "#16A34A";
@@ -17,6 +21,8 @@ const OneRecord = (props) => {
   const ImageType =
     transactionType === "Expense" ? <FoodExpense /> : <FaHouse />;
   const icon = categoryIconByCategoryName(props);
+
+  const showDelete = () => [setShow(!show)];
 
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
@@ -32,11 +38,11 @@ const OneRecord = (props) => {
         <div className="flex flex-col">
           <p className="font-normal text-base">{text}</p>
           <p className="font-normal text-xs text-[#6B7280]">
-            {moment().format("LT")}
+            {moment(time).format("l")}
           </p>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex gap-4">
         <p
           className={`font-semibold text-base text-[${MoneyColor}]`}
           style={{ color: MoneyColor }}
@@ -44,6 +50,10 @@ const OneRecord = (props) => {
           {MoneyType}
           {money}
         </p>
+        <button onclick={showDelete} type="button">
+          <FiMoreVertical />
+        </button>
+        <button onclick={onclick}>x</button>
       </div>
     </div>
   );
