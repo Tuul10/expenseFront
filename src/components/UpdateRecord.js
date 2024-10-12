@@ -1,15 +1,13 @@
+import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "sonner";
 
-const AddRecord = (props) => {
-  const { onCloseModal, refetchRecords } = props;
+export const UpdateRecord = (props) => {
   const [incomeExpense, setIncomeExpense] = useState("Expense");
   const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState(0);
   const [value, setValue] = useState(0);
+  const { onCloseModal } = props;
 
   const handleIncomeOrExpense = (props) => {
     const { name } = props;
@@ -21,69 +19,10 @@ const AddRecord = (props) => {
     }
   };
 
-  const resetRecordValues = () => {
-    setIncomeExpense("Expense");
-    setDescription("");
-    setAmount(0);
-    setCategories([]);
-    setValue(0);
-  };
-
-  const handleAddRecord = async () => {
-    if (!categories || !description || !amount) {
-      toast.error("bugluugui medeelel uldsen baina");
-      return;
-    }
-
-    try {
-      await axios.post("http://localhost:8000/records", {
-        userid: 1,
-        record_name: "aa",
-        amount: amount,
-        transaction_type: incomeExpense,
-        description: description,
-        gategoryid: value,
-      });
-      resetRecordValues();
-      refetchRecords();
-      onCloseModal();
-      toast.success("Successfully added record");
-    } catch (error) {
-      toast.error("something went wrong");
-    }
-  };
-
-  useEffect(() => {
-    const getCategory = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/category");
-        setCategories(response.data.categories);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCategory();
-  }, []);
-
-  const OnchangeValue = (e) => {
-    setValue(e.target.value);
-  };
-
-  const Expensebackground = incomeExpense === "Expense" ? "#0166FF" : "#F3F4F6";
-  const Incomebackground = incomeExpense === "Income" ? "#16A34A" : "#F3F4F6";
-  const buttonColor = incomeExpense === "Income" ? "#16A34A" : "#0166FF";
-
   const textColorIncome =
     incomeExpense === "Income" ? "text-white" : "text-base";
   const textColorExpense =
     incomeExpense === "Expense" ? "text-white" : "text-base";
-
-  const today = new Date();
-  const day = String(today.getDate());
-  const year = String(today.getFullYear());
-  const month = "0" + String(today.getMonth());
-  const hour = String(today.getHours());
-  const minutes = String(today.getMinutes());
 
   return (
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">
@@ -189,5 +128,3 @@ const AddRecord = (props) => {
     </div>
   );
 };
-
-export default AddRecord;

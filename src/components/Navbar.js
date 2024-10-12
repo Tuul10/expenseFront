@@ -10,7 +10,7 @@ const Navbar = () => {
     setShowAdd(!showAdd);
   };
   return (
-    <div className="bg-white w-[100vw] px-[120px] py-4 flex justify-between max-w-screen-xl ">
+    <div className="bg-white w-[100%] px-[120px] py-4 flex justify-between  ">
       {showAdd && (
         <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-gray-400 flex justify-center items-center">
           <AddRecord onCloseModal={handleAdd} />

@@ -2,16 +2,16 @@ import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 
 const Income = (props) => {
-  const { records } = useContext(ThemeContext);
-  const amount = records.filter((record) => {
-    if (record.transaction_type === "Expense") {
-      return record.amount;
-    }
-  });
+  // const { records } = useContext(ThemeContext);
+  // const amount = records.filter((record) => {
+  //   if (record.transaction_type === "Expense") {
+  //     return record.amount;
+  //   }
+  // });
 
   const { color, title, money, text, description, icon } = props;
   return (
-    <div className="flex flex-col rounded-xl bg-white w-full">
+    <div className="flex flex-col rounded-xl bg-white w-full h-[220px]">
       <div className="flex gap-2 py-6 pl-6 items-center">
         <div className={`bg-[${color}] w-2 h-2 rounded-full`}></div>
         <p className="font-semibold text-base text-[#0F172A]"> {title} </p>

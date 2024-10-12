@@ -6,9 +6,10 @@ import categoryIconByCategoryName from "@/util/findCategories";
 import { FiMoreVertical } from "react-icons/fi";
 import { useState } from "react";
 import { FaEye } from "react-icons/fa";
+import { UpdateRecord } from "./UpdateRecord";
 
 const OneRecord = (props) => {
-  const [show, setShow] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
   const { text, image, time, color, money, transactionType, onclick } = props;
 
   const Expensebackground =
@@ -21,8 +22,6 @@ const OneRecord = (props) => {
   const ImageType =
     transactionType === "Expense" ? <FoodExpense /> : <FaHouse />;
   const icon = categoryIconByCategoryName(props);
-
-  const showDelete = () => [setShow(!show)];
 
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
@@ -50,9 +49,6 @@ const OneRecord = (props) => {
           {MoneyType}
           {money}
         </p>
-        <button onclick={showDelete} type="button">
-          <FiMoreVertical />
-        </button>
         <button onclick={onclick}>x</button>
       </div>
     </div>

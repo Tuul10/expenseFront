@@ -4,19 +4,22 @@ import ExpenseLogo from "../../public/icons/ExpenseLogo";
 import IncomeLogo from "../../public/icons/IncomeLogo";
 import { CardLogo } from "../../public/icons/CardLogo";
 import { Geld } from "../../public/icons/Geld";
-import { Shape } from "../../public/icons/Shape";
 import { ThemeContext } from "@/components/ThemeContext";
 import { useContext } from "react";
+import BarChart from "@/components/BarChart";
+import RingChart from "@/components/PieChart";
+import OneRecord from "@/components/OneRecord";
+import moment from "moment";
 
 const Dashboard = () => {
   const { records } = useContext(ThemeContext);
   return (
-    <div className="bg-[#F3F4F6] flex flex-col gap-8  mx-auto w-[100vw] h-[100vh]">
+    <div className="bg-[#F3F4F6] flex flex-col gap-8  mx-auto w-[100vw] h-[100%]">
       <div className="w-[1280px mx-auto] gap-8 flex flex-col">
         <Navbar />
         <div className="flex flex-col gap-6 w-[1200px] mx-auto">
           <div className="flex gap-6">
-            <div className="w-full rounded-[18px] bg-[#0166FF] text-[#FFFFFF]  flex flex-col p-12">
+            <div className="w-full h-[220px] rounded-[18px] bg-[#0166FF] text-[#FFFFFF]  flex flex-col p-12">
               <div className="flex gap-1 ">
                 <CardLogo />
                 <Geld />
@@ -26,9 +29,7 @@ const Dashboard = () => {
                   cash
                   <p>10,000,00</p>
                 </div>
-                <div className="flex justify-end">
-                  <Shape />
-                </div>
+                <div className="flex justify-end">{/* <Shape /> */}</div>
               </div>
             </div>
             <Income
@@ -54,14 +55,19 @@ const Dashboard = () => {
             <div className="  bg-white rounded-md">
               <p className="font-semibold text-base p-4">Income - Expense </p>
             </div>
-            <div className="py-8 px-6 bg-white mt-2 rounded-md">32</div>
+            <div className="py-8 px-6 bg-white mt-2 rounded-md h-[280px]">
+              {" "}
+              <BarChart />
+            </div>
           </div>
 
           <div className="flex flex-col flex-1">
             <div className="  bg-white rounded-md">
               <p className="font-semibold text-base p-4">Income - Expense </p>
             </div>
-            <div className="py-8 px-6 bg-white mt-2 rounded-md">32</div>
+            <div className="py-8 px-6 bg-white mt-2 rounded-md h-[280px] ">
+              <RingChart />
+            </div>
           </div>
         </div>
         {/* <div className="flex gap-6 px-[120px]">
@@ -85,6 +91,18 @@ const Dashboard = () => {
       </div> */}
         <div className="flex w-[1280px] mx-auto p-4 text-base front-normal bg-white rounded-md">
           <h1>Last Records</h1>
+        </div>
+        <div>
+          {records.map((record) => {
+            // if (record.createdat === moment().format("L"))
+            return (
+              <OneRecord
+                text={record.category_name}
+                time={record.createdat}
+                money={record.amount}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

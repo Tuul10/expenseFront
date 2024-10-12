@@ -27,7 +27,6 @@ const Home = (props) => {
       const categories = response.data.categories.map((category) => {
         return { ...category, selected: true };
       });
-      console.log(categories);
 
       setCategories(categories);
     } catch (error) {
@@ -46,15 +45,6 @@ const Home = (props) => {
       return category;
     });
     setCategories(updatedCategories);
-
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/records/${category.categoryid}`
-      );
-      setFilteredRecords(response.data.records);
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   const getRecords = async () => {
@@ -75,12 +65,29 @@ const Home = (props) => {
     getRecords();
   }, []);
 
-  const selectNewest = () => {
-    const recordNewest = records.filter((record) => {
-      if (record.createdAt) {
-      }
-    });
+  const handleSortChange = (event) => {
+    const value = event.target.value;
+    if (value === "Newest") {
+      selectNewest();
+    } else {
+      Oldest();
+    }
   };
+
+  const selectNewest = () => {
+    const sortedRecords = [...records].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    setFilteredRecords(sortedRecords);
+  };
+
+  const Oldest = () => {
+    const sortedRecords = [...records].sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    );
+    setFilteredRecords(sortedRecords);
+  };
+
   const todayRecords = filteredRecords.filter((record) => {
     if (record.createdAt === moment().format("L")) {
       return record;
@@ -221,7 +228,10 @@ const Home = (props) => {
                   <FaAngleRight />
                 </div>
               </div>
-              <select className="w-[180px] py-3 px-4 rounded-lg font-semibold text-base text-[#1F2937] border border-[#D1D5DB]">
+              <select
+                onclick={handleSortChange}
+                className="w-[180px] py-3 px-4 rounded-lg font-semibold text-base text-[#1F2937] border border-[#D1D5DB] bg-white"
+              >
                 <option selected>Newest First</option>
                 <option>Oldest </option>
               </select>
@@ -230,7 +240,7 @@ const Home = (props) => {
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
                 <Transaction
-                  records={todayRecords}
+                  records={filteredCategories}
                   setRecords={setFilteredRecords}
                   categories={categories}
                 />
