@@ -1,16 +1,20 @@
-import moment from "moment";
 import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import { FaHouse } from "react-icons/fa6";
-import { format } from "date-fns";
 import categoryIconByCategoryName from "@/util/findCategories";
-import { FiMoreVertical } from "react-icons/fi";
-import { useState } from "react";
-import { FaEye } from "react-icons/fa";
-import { UpdateRecord } from "./UpdateRecord";
+import moment from "moment";
 
 const OneRecord = (props) => {
-  const [showAdd, setShowAdd] = useState(false);
-  const { text, image, time, color, money, transactionType, onclick } = props;
+  const {
+    text,
+    image,
+    time,
+    color,
+    money,
+    transactionType,
+    deleteRecord,
+    handleAdd,
+  } = props;
+  console.log(handleAdd);
 
   const Expensebackground =
     transactionType === "Expense" ? "#0166FF" : "#16A34A";
@@ -37,7 +41,8 @@ const OneRecord = (props) => {
         <div className="flex flex-col">
           <p className="font-normal text-base">{text}</p>
           <p className="font-normal text-xs text-[#6B7280]">
-            {moment(time).format("l")}
+            {/* {moment(time).format("l")} */}
+            {time}
           </p>
         </div>
       </div>
@@ -49,7 +54,8 @@ const OneRecord = (props) => {
           {MoneyType}
           {money}
         </p>
-        <button onclick={onclick}>x</button>
+        <button onClick={deleteRecord}>x</button>
+        <button onClick={handleAdd}>edit</button>
       </div>
     </div>
   );

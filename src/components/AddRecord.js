@@ -2,6 +2,7 @@ import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import moment from "moment";
 
 const AddRecord = (props) => {
   const { onCloseModal, refetchRecords } = props;
@@ -143,7 +144,7 @@ const AddRecord = (props) => {
                   })}
                 </select>
               </div>
-              {/* {
+              {
                 <div className="flex gap-2">
                   <div className="flex flex-col gap-2 w-full">
                     <p>Date</p>
@@ -163,7 +164,7 @@ const AddRecord = (props) => {
                     />
                   </div>
                 </div>
-              } */}
+              }
             </div>
             <button
               onClick={handleAddRecord}

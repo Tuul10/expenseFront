@@ -1,13 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { ThemeContext } from "./ThemeContext";
 
 export const UpdateRecord = (props) => {
-  const [incomeExpense, setIncomeExpense] = useState("Expense");
-  const [categories, setCategories] = useState([]);
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [value, setValue] = useState(0);
-  const { onCloseModal } = props;
+  const { onCloseModal, Income, Expense, categories, Category, Description } =
+    props;
 
   const handleIncomeOrExpense = (props) => {
     const { name } = props;
@@ -19,6 +16,14 @@ export const UpdateRecord = (props) => {
     }
   };
 
+  const OnchangeValue = (e) => {
+    setValue(e.target.value);
+  };
+
+  const Expensebackground = incomeExpense === "Expense" ? "#0166FF" : "#F3F4F6";
+  const Incomebackground = incomeExpense === "Income" ? "#16A34A" : "#F3F4F6";
+  const buttonColor = incomeExpense === "Income" ? "#16A34A" : "#0166FF";
+
   const textColorIncome =
     incomeExpense === "Income" ? "text-white" : "text-base";
   const textColorExpense =
@@ -27,7 +32,7 @@ export const UpdateRecord = (props) => {
   return (
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">
       <div className="py-5 px-6 flex justify-between">
-        <p className="font-semibold text-xl">Add Record</p>
+        <p className="font-semibold text-xl">Update Record</p>
         <IoClose size={24} onClick={onCloseModal} />
       </div>
       <div>
@@ -39,14 +44,14 @@ export const UpdateRecord = (props) => {
                 className={`py-2 px-[55.5px] ${textColorExpense} font-normal text-base rounded-3xl bg-[${Expensebackground}]`}
                 style={{ backgroundColor: Expensebackground }}
               >
-                Expense
+                {Expense}
               </div>
               <div
                 onClick={() => handleIncomeOrExpense("Income")}
                 className={`py-2 px-[55.5px] ${textColorIncome} font-normal text-base rounded-3xl bg-[${Incomebackground}]`}
                 style={{ backgroundColor: Incomebackground }}
               >
-                Income
+                {Income}
               </div>
             </div>
             <div className="flex flex-col mb-3 gap-[22px]">
@@ -63,7 +68,7 @@ export const UpdateRecord = (props) => {
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <p> Category </p>
+                <p> {Category}</p>
                 <select
                   onChange={OnchangeValue}
                   className="bg-[#F9FAFB] py-3 px-4 text-base font-normal border border-[#D1D5DB] rounded-lg"
@@ -105,15 +110,15 @@ export const UpdateRecord = (props) => {
               } */}
             </div>
             <button
-              onClick={handleAddRecord}
+              // onClick={UpdateRecord}
               className={`bg-[${buttonColor}] flex items-center justify-center py-2 rounded-3xl text-white`}
               style={{ backgroundColor: buttonColor }}
             >
-              Add Record
+              Update Record
             </button>
           </div>
           <div className="flex flex-col gap-2 px-6 pb-6 pt-[18px] w-full ">
-            <p className="text-[#1F2937]">Description</p>
+            <p className="text-[#1F2937]">{Description}</p>
             <textarea
               onChange={(e) => {
                 setDescription(e.target.value);
