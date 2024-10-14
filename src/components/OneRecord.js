@@ -2,6 +2,9 @@ import FoodExpense from "../../public/icons/FoodExpenseIcon";
 import { FaHouse } from "react-icons/fa6";
 import categoryIconByCategoryName from "@/util/findCategories";
 import moment from "moment";
+import { IoPencilOutline } from "react-icons/io5";
+import { compareAsc, format } from "date-fns";
+import { de } from "date-fns/locale";
 
 const OneRecord = (props) => {
   const {
@@ -12,10 +15,10 @@ const OneRecord = (props) => {
     money,
     transactionType,
     deleteRecord,
-    handleAdd,
+    getRecords,
+    recordid,
   } = props;
-  console.log(handleAdd);
-
+  console.log(time);
   const Expensebackground =
     transactionType === "Expense" ? "#0166FF" : "#16A34A";
 
@@ -41,8 +44,7 @@ const OneRecord = (props) => {
         <div className="flex flex-col">
           <p className="font-normal text-base">{text}</p>
           <p className="font-normal text-xs text-[#6B7280]">
-            {/* {moment(time).format("l")} */}
-            {time}
+            {format(new Date(time), "yyyy-MM-dd", { locale: de })}
           </p>
         </div>
       </div>
@@ -55,7 +57,7 @@ const OneRecord = (props) => {
           {money}
         </p>
         <button onClick={deleteRecord}>x</button>
-        <button onClick={handleAdd}>edit</button>
+        <IoPencilOutline onClick={getRecords} />
       </div>
     </div>
   );

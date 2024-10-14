@@ -16,7 +16,7 @@ import { UpdatedRecord } from "@/components/UpdatedRecord";
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
-  const [showhandleupdate, setShowHandleUpdate] = useState(false);
+
   const [records, setRecords] = useState([]);
   const [selected, setSelected] = useState("All");
   const [filteredRecords, setFilteredRecords] = useState([]);
@@ -119,10 +119,6 @@ const Home = (props) => {
     setFilteredRecords(records);
   };
 
-  const handleUpdateRecord = () => {
-    setShowHandleUpdate(!showhandleupdate);
-  };
-
   const handleAddCategory = () => {
     setShowCategory(!showCategory);
   };
@@ -147,15 +143,7 @@ const Home = (props) => {
           />
         </div>
       )}
-      {showhandleupdate && (
-        <div className="z-30 fixed top-0 left-0 right-0 bottom-0 bg-gray-400 flex justify-center items-center">
-          <UpdatedRecord
-            onCloseModal={handleUpdateRecord}
-            getCategory={getCategory}
-            categories={categories}
-          />
-        </div>
-      )}
+
       <div
         className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative h-[100%]`}
       >
@@ -255,7 +243,6 @@ const Home = (props) => {
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3 mb-3">
                 <Transaction
-                  handleAdd={handleUpdateRecord}
                   records={filteredCategories}
                   setRecords={setFilteredRecords}
                   categories={categories}
@@ -264,7 +251,6 @@ const Home = (props) => {
               <p className="font-semibold text-base"> Yesterday </p>
               <div className="flex flex-col gap-3">
                 <Transaction
-                  handleAdd={handleUpdateRecord}
                   records={filteredCategories}
                   setRecords={setFilteredRecords}
                   categories={categories}
