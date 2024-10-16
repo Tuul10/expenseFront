@@ -21,7 +21,7 @@ export const ThemeContextProvider = ({ children }) => {
     setIsLoading(false);
   }, [isLoading]);
 
-  const signin = async (userId) => {
+  const signin = async (userid) => {
     setIsLoading(true);
     localStorage.setItem(
       "user",
