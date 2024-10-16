@@ -3,6 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { ThemeContext } from "./ThemeContext";
 
 export const UpdateRecord = (props) => {
+  const [incomeExpense, setIncomeExpense] = useState("Expense");
   const { onCloseModal, Income, Expense, categories, Category, Description } =
     props;
 
@@ -44,14 +45,14 @@ export const UpdateRecord = (props) => {
                 className={`py-2 px-[55.5px] ${textColorExpense} font-normal text-base rounded-3xl bg-[${Expensebackground}]`}
                 style={{ backgroundColor: Expensebackground }}
               >
-                {Expense}
+                Expense
               </div>
               <div
                 onClick={() => handleIncomeOrExpense("Income")}
                 className={`py-2 px-[55.5px] ${textColorIncome} font-normal text-base rounded-3xl bg-[${Incomebackground}]`}
                 style={{ backgroundColor: Incomebackground }}
               >
-                {Income}
+                Income
               </div>
             </div>
             <div className="flex flex-col mb-3 gap-[22px]">
@@ -118,7 +119,7 @@ export const UpdateRecord = (props) => {
             </button>
           </div>
           <div className="flex flex-col gap-2 px-6 pb-6 pt-[18px] w-full ">
-            <p className="text-[#1F2937]">{Description}</p>
+            <p className="text-[#1F2937]">Description</p>
             <textarea
               onChange={(e) => {
                 setDescription(e.target.value);

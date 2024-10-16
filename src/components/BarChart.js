@@ -1,6 +1,8 @@
 import { useContext, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import { ThemeContext } from "./ThemeContext";
+import moment from "moment";
+import { util } from "util";
 
 const BarChart = () => {
   const { records } = useContext(ThemeContext);
@@ -10,32 +12,34 @@ const BarChart = () => {
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
 
-    // Destroy previous chart instance if it exists
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
 
-    // Prepare the data for the chart
-    const labels = records.map((record) => record.category_name);
-    const data = records.map((record) => record.amount);
-    const backgroundColors = records.map((record) =>
-      record.transaction_type === "Expense" ? "green" : "red"
-    );
-    const label = records.filter((record) =>
-      record.transaction_type === "Income" ? "green" : "red"
-    );
+    const months = records.map((record) => record.transferat);
 
-    // Create new chart instance
+    const labels = [months];
+    const data = records.map((record) => record.amount);
+
+    console.log(data);
+
     chartInstance.current = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: labels, // Category names
+        labels: labels,
         datasets: [
           {
-            label: label,
-            data: data, // Amounts for each category
-            backgroundColor: backgroundColors, // Green for positive, Red for negative
-            borderColor: backgroundColors, // Optional: same as background
+            label: "income",
+            data: data,
+            backgroundColor: "green",
+            borderColor: "green",
+            borderWidth: 1,
+          },
+          {
+            label: "expense",
+            data: data,
+            backgroundColor: "red",
+            borderColor: "red",
             borderWidth: 1,
           },
         ],
@@ -43,19 +47,18 @@ const BarChart = () => {
       options: {
         scales: {
           y: {
-            beginAtZero: true, // Start the Y-axis at zero
+            beginAtZero: true,
           },
         },
       },
     });
 
-    // Cleanup function to destroy the chart when component unmounts
     return () => {
       if (chartInstance.current) {
         chartInstance.current.destroy();
       }
     };
-  }, [records]); // Re-run the effect if `records` changes
+  }, [records]);
 
   return <canvas ref={chartRef}></canvas>;
 };

@@ -11,6 +11,7 @@ const AddRecord = (props) => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState(0);
   const [value, setValue] = useState(0);
+  const [date, setDate] = useState("");
 
   const handleIncomeOrExpense = (props) => {
     const { name } = props;
@@ -37,13 +38,14 @@ const AddRecord = (props) => {
     }
 
     try {
-      await axios.post("http://localhost:8000/records", {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/records`, {
         userid: 1,
         record_name: "aa",
         amount: amount,
         transaction_type: incomeExpense,
         description: description,
-        gategoryid: value,
+        categoryid: value,
+        transferat: date,
       });
       resetRecordValues();
       refetchRecords();
@@ -57,7 +59,9 @@ const AddRecord = (props) => {
   useEffect(() => {
     const getCategory = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/category");
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/category`
+        );
         setCategories(response.data.categories);
       } catch (error) {
         console.error(error);
@@ -149,17 +153,10 @@ const AddRecord = (props) => {
                   <div className="flex flex-col gap-2 w-full">
                     <p>Date</p>
                     <input
-                      type={moment().format("L")}
-                      defaultValue={`${year}-${month}-${day}`}
-                      className="py-3 px-4 bg-[#F9FAFB] border border-[#D1D5DB] rounded-lg"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2 w-full">
-                    <p>Time</p>
-                    <input
-                      name="time"
-                      type="time"
-                      defaultValue={`${hour}:${minutes}`}
+                      onChange={(e) => {
+                        setDate(e.target.value);
+                      }}
+                      type="date"
                       className="py-3 px-4 bg-[#F9FAFB] border border-[#D1D5DB] rounded-lg"
                     />
                   </div>

@@ -5,6 +5,7 @@ import moment from "moment";
 import { IoPencilOutline } from "react-icons/io5";
 import { compareAsc, format } from "date-fns";
 import { de } from "date-fns/locale";
+import currency from "currency.js";
 
 const OneRecord = (props) => {
   const {
@@ -18,7 +19,6 @@ const OneRecord = (props) => {
     getRecords,
     recordid,
   } = props;
-  console.log(time);
   const Expensebackground =
     transactionType === "Expense" ? "#0166FF" : "#16A34A";
 
@@ -30,6 +30,7 @@ const OneRecord = (props) => {
     transactionType === "Expense" ? <FoodExpense /> : <FaHouse />;
   const icon = categoryIconByCategoryName(props);
 
+  const formattedMoney = currency(money, { decimal: ",", symbol: "" }).format();
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
       <div className="flex gap-4">
@@ -54,10 +55,28 @@ const OneRecord = (props) => {
           style={{ color: MoneyColor }}
         >
           {MoneyType}
-          {money}
+          {formattedMoney}
         </p>
-        <button onClick={deleteRecord}>x</button>
-        <IoPencilOutline onClick={getRecords} />
+        <button
+          onClick={() => document.getElementById("my_modal_1").showModal()}
+        >
+          x
+        </button>
+
+        <dialog id="my_modal_1" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Wait!</h3>
+            <p className="py-4">Are you sure delete this Record?</p>
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn mr-2" onClick={deleteRecord}>
+                  Yes
+                </button>
+                <button className="btn">No</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
     </div>
   );

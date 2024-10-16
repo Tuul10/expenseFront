@@ -17,12 +17,10 @@ export const Categories = (props) => {
               key={category.categoryid}
               value={category.category_name}
               onClick={() => handleSelectcategory(category)}
-              categoryId={category.categoryid}
             >
               <Category
                 categoryName={category.category_name}
                 selected={category.selected}
-                // onSelect={onSelectedCategory(category)}
               />
             </div>
           );

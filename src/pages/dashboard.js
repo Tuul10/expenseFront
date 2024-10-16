@@ -92,11 +92,12 @@ const Dashboard = () => {
         <div className="flex w-[1280px] mx-auto p-4 text-base front-normal bg-white rounded-md">
           <h1>Last Records</h1>
         </div>
-        <div>
+        <div className="max-w-7xl mx-auto w-[1280px]">
           {records.map((record) => {
             // if (record.createdat === moment().format("L"))
             return (
               <OneRecord
+                key={record.recordid}
                 text={record.category_name}
                 time={record.createdat}
                 money={record.amount}

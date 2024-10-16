@@ -13,7 +13,7 @@ const SignUp = () => {
 
   const SignUp = async () => {
     await axios
-      .post("http://localhost:8000/users", {
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`, {
         email: email,
         user_name: name,
         user_password: password,

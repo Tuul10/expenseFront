@@ -22,7 +22,7 @@ const Navbar = () => {
           <p> Dashboard </p>
         </Link>
         <Link href={"/"}>
-          <p> Records</p>
+          <p className="text-[#0F172A]"> Records</p>
         </Link>
       </div>
       <div className="flex items-center gap-6">
@@ -32,7 +32,12 @@ const Navbar = () => {
         >
           + Record
         </button>
-        <div className="rounded-full w-10 h-10 bg-[url('/images/Profile.jpeg')]"></div>
+        <div className="rounded-full w-10 h-10 bg-[url('/images/Profile.jpeg')]">
+          <img
+            src="Placeholder.png
+        "
+          />
+        </div>
       </div>
     </div>
   );

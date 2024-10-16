@@ -9,22 +9,11 @@ const records = [
   { category_name: "Food", amount: 200 },
   { category_name: "Transport", amount: 100 },
   { category_name: "Entertainment", amount: 150 },
-  // ... other records
 ];
 
 const RingChart = () => {
   const { records } = useContext(ThemeContext);
   const chartInstance = useRef(null);
-
-  // const data = records.reduce(
-  //   (acc, record) => {
-  //     acc.labels.push(record.category_name);
-  //     acc.data.push(record.amount);
-  //     acc.colors.push(getColorForCategory(record.category_name)); // Function to determine color based on category
-  //     return acc;
-  //   },
-  //   { labels: [], data: [], colors: [] }
-  // );
 
   function getColorForCategory(category) {
     const colorMap = {
@@ -35,10 +24,8 @@ const RingChart = () => {
       Shopping: "#cf1133",
       CommunicationPC: "#ff7f50",
       FinancialExpenses: "#ff7f50",
-
-      // Add more categories and their colors#FFCE56, #36A2EB
     };
-    return colorMap[category] || "#CCCCCC"; // Default color if category not found
+    return colorMap[category] || "#CCCCCC";
   }
   const chartRef = useRef(null);
 

@@ -1,31 +1,36 @@
 import Navbar from "../components/Navbar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PlusSign from "../../public/icons/PlusSign";
-import { FaChevronLeft, FaSearchengin } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa6";
 import { Categories } from "@/components/Categories";
 import AddRecord from "@/components/AddRecord";
 import { Transaction } from "@/components/Transaction";
 import { AddCategory } from "@/components/AddCategory";
 import axios from "axios";
-import { useQueryState } from "nuqs";
-import Category from "@/components/Category";
-import moment from "moment";
-import { UpdatedRecord } from "@/components/UpdatedRecord";
+import { useRouter } from "next/router";
+import { ThemeContext } from "@/components/ThemeContext";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
   const [showCategory, setShowCategory] = useState(false);
-
   const [records, setRecords] = useState([]);
   const [selected, setSelected] = useState("All");
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
+  const router = useRouter();
+  const { currentUser, isLoading } = useContext(ThemeContext);
+
+  useEffect(() => {
+    if (!currentUser && !isLoading) {
+      router.push("/signIn");
+    }
+  }, [currentUser, isLoading]);
 
   const getCategory = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/category`);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/category`
+      );
       const categories = response.data.categories.map((category) => {
         return { ...category, selected: true };
       });
@@ -51,7 +56,9 @@ const Home = (props) => {
 
   const getRecords = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/records");
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/records`
+      );
       setRecords(response.data.records);
       setFilteredRecords(response.data.records);
     } catch (error) {
@@ -89,12 +96,6 @@ const Home = (props) => {
     );
     setFilteredRecords(sortedRecords);
   };
-
-  const todayRecords = filteredRecords.filter((record) => {
-    if (record.createdAt === moment().format("L")) {
-      return record;
-    }
-  });
 
   const handleExpense = () => {
     const array = records.filter(
@@ -145,12 +146,12 @@ const Home = (props) => {
       )}
 
       <div
-        className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative h-[100%]`}
+        className={`bg-[#F3F4F6] flex flex-col gap-8 items-center relative h-[100vh]`}
       >
         <Navbar />
 
         <div className="flex gap-6">
-          <div className="bg-white flex flex-col px-6 py-4 w-[282px] gap-6 rounded-xl h-fit border border-[#E5E7EB]">
+          <div className="bg-white flex flex-col px-6 py-4  w-[282px] gap-6 rounded-xl border border-[#E5E7EB]">
             <div className="flex flex-col gap-6">
               <p> Records </p>
               <button
@@ -221,7 +222,7 @@ const Home = (props) => {
             </div>
           </div>
           <div className="w-[894px] flex flex-col gap-4">
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <div className="flex gap-4 items-center">
                 <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
                   <FaChevronLeft />
@@ -238,17 +239,9 @@ const Home = (props) => {
                 <option selected>Newest First</option>
                 <option>Oldest </option>
               </select>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-3">
-              <p className="font-semibold text-base"> Today </p>
-              <div className="flex flex-col gap-3 mb-3">
-                <Transaction
-                  records={filteredCategories}
-                  setRecords={setFilteredRecords}
-                  categories={categories}
-                />
-              </div>
-              <p className="font-semibold text-base"> Yesterday </p>
+              <p className="font-semibold text-base"> Records </p>
               <div className="flex flex-col gap-3">
                 <Transaction
                   records={filteredCategories}
