@@ -33,7 +33,7 @@ const Navbar = () => {
           + Record
         </button>
         <div className="rounded-full w-10 h-10 bg-[url('/images/Profile.jpeg')]">
-          <img
+          <Image
             src="Placeholder.png
         "
           />
