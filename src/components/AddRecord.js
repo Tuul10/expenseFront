@@ -2,7 +2,6 @@ import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
-import moment from "moment";
 
 const AddRecord = (props) => {
   const { onCloseModal, refetchRecords } = props;
@@ -36,17 +35,19 @@ const AddRecord = (props) => {
       toast.error("bugluugui medeelel uldsen baina");
       return;
     }
-
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/records`, {
-        userid: 1,
-        record_name: "aa",
-        amount: amount,
-        transaction_type: incomeExpense,
-        description: description,
-        categoryid: value,
-        transferat: date,
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/records/postRecord`,
+        {
+          userid: localStorage.getItem("userid"),
+          record_name: "aa",
+          amount: amount,
+          transaction_type: incomeExpense,
+          description: description,
+          categoryid: value,
+          transferat: date,
+        }
+      );
       resetRecordValues();
       refetchRecords();
       onCloseModal();
@@ -82,13 +83,6 @@ const AddRecord = (props) => {
     incomeExpense === "Income" ? "text-white" : "text-base";
   const textColorExpense =
     incomeExpense === "Expense" ? "text-white" : "text-base";
-
-  const today = new Date();
-  const day = String(today.getDate());
-  const year = String(today.getFullYear());
-  const month = "0" + String(today.getMonth());
-  const hour = String(today.getHours());
-  const minutes = String(today.getMinutes());
 
   return (
     <div className="w-[792px] flex flex-col rounded-xl  border-b border-[#E2E8F0] bg-slate-200">

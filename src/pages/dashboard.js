@@ -5,7 +5,7 @@ import IncomeLogo from "../../public/icons/IncomeLogo";
 import { CardLogo } from "../../public/icons/CardLogo";
 import { Geld } from "../../public/icons/Geld";
 import { ThemeContext } from "@/components/ThemeContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import BarChart from "@/components/BarChart";
 import RingChart from "@/components/PieChart";
 import OneRecord from "@/components/OneRecord";
@@ -13,6 +13,14 @@ import moment from "moment";
 
 const Dashboard = () => {
   const { records } = useContext(ThemeContext);
+  const [number, setNumber] = useState(0);
+
+  // const money = records.filter((record) => {
+  //   console.log(record);
+  //   record.transaction_type === "Expense";
+  //   return record.amount;
+  // });
+
   return (
     <div className="bg-[#F3F4F6] flex flex-col gap-8  mx-auto w-[100vw] h-[100%]">
       <div className="w-[1280px mx-auto] gap-8 flex flex-col">
@@ -44,6 +52,7 @@ const Dashboard = () => {
             <Income
               color={"#0166FF"}
               title={"Your Expense"}
+              money={"1333333"}
               text={"Your Expense Amount"}
               description={"32% from last month"}
               icon={<ExpenseLogo />}
@@ -94,7 +103,6 @@ const Dashboard = () => {
         </div>
         <div className="max-w-7xl mx-auto w-[1280px]">
           {records.map((record) => {
-            // if (record.createdat === moment().format("L"))
             return (
               <OneRecord
                 key={record.recordid}

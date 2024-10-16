@@ -3,14 +3,10 @@ import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaHouse } from "react-icons/fa6";
 import { SlArrowDown } from "react-icons/sl";
-import { IoFastFood } from "react-icons/io5";
-import { FaTaxi } from "react-icons/fa";
-import { FaShoppingCart } from "react-icons/fa";
 import { toast } from "sonner";
 
 export const AddCategory = (props) => {
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const { onCloseModal, getCategory } = props;
 
   const handleAddCategory = async () => {
@@ -18,7 +14,7 @@ export const AddCategory = (props) => {
       alert("hooson medeelel baina");
     }
     try {
-      await axios.post("http://localhost:8000/category", {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/category`, {
         category_name: name,
         description: "",
         category_image: "",

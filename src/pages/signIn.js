@@ -3,6 +3,7 @@ import Logo from "../../public/icons/Logo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { toast } from "sonner";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -18,10 +19,10 @@ const SignIn = () => {
       .then(function (response) {
         localStorage.setItem("userid", JSON.stringify(response.data[0].userid));
         if (response.data.length === 1) return router.push("/dashboard");
-        else console.log("amjiltgui");
+        else toast.error("somethin wrong email or password");
       })
       .catch(function (error) {
-        console.log(error);
+        toast.error("something wrong");
       });
   };
 

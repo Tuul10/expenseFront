@@ -16,12 +16,21 @@ const BarChart = () => {
       chartInstance.current.destroy();
     }
 
-    const months = records.map((record) => record.transferat);
-
-    const labels = [months];
+    const labels = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
     const data = records.map((record) => record.amount);
-
-    console.log(data);
 
     chartInstance.current = new Chart(ctx, {
       type: "bar",

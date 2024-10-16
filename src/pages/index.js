@@ -54,10 +54,18 @@ const Home = (props) => {
     setCategories(updatedCategories);
   };
 
+  const handleCloseCategories = () => {
+    const closeCategories = categories.map((category) => {
+      return { ...category, selected: !category.selected };
+    });
+    setCategories(closeCategories);
+  };
+
   const getRecords = async () => {
+    const id = localStorage.getItem("userid");
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/records`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/records/user/${id}`
       );
       setRecords(response.data.records);
       setFilteredRecords(response.data.records);
@@ -210,7 +218,12 @@ const Home = (props) => {
                   // filterCategories={checkedCategories}
                 />
 
-                <p className="font-normal text-base opacity-20"> Clear </p>
+                <p
+                  onClick={handleCloseCategories}
+                  className="font-normal text-base opacity-20"
+                >
+                  Close
+                </p>
               </div>
               <div className="flex flex-col gap-2"></div>
               <div className="flex gap-2 py-1.5 pl-3 items-center">

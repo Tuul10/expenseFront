@@ -38,27 +38,13 @@ export const ThemeContextProvider = ({ children }) => {
     router.push("/");
   };
 
-  // const getCategory = async () => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:8000/category`);
-  //     const categories = response.data.categories.map((category) => {
-  //       return { ...category, selected: true };
-  //     });
-
-  //     setCategories(categories);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getCategory();
-  // }, []);
-
   const getRecord = async () => {
+    const id = localStorage.getItem("userid");
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/records`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/records/user/${id}`
       );
+      console.log(response);
       setRecords(response.data.records);
     } catch (error) {
       console.error(error);

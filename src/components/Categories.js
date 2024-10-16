@@ -1,5 +1,4 @@
 import Category from "./Category";
-import { useEffect, useState } from "react";
 
 export const Categories = (props) => {
   const { categories, handleSelectcategory } = props;
