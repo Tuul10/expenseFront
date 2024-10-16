@@ -17,7 +17,9 @@ export const Transaction = (props) => {
 
   const deleteRecord = async (recordid) => {
     try {
-      await axios.delete(`http://localhost:8000/records/${recordid}`);
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/records/${recordid}`
+      );
       setRecords((prevRecords) =>
         prevRecords.filter((record) => record.recordid !== recordid)
       );
