@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [expenseAmount, setExpenseAmount] = useState(0);
   const [incomeAmount, setIncomeAmount] = useState(0);
   const { currentUser, isLoading } = useAuthContext();
+  const [amount, setAmount] = useState;
   const router = useRouter();
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const Dashboard = () => {
   useEffect(() => {
     let expenseSum = 0;
     let incomeSum = 0;
+    let allAmount = 0;
 
     records.forEach((record) => {
       if (record.transaction_type === "Expense") {
@@ -37,8 +39,13 @@ const Dashboard = () => {
       }
     });
 
+    records.forEach((record) => {
+      allAmount += record.amount;
+    });
+
     setExpenseAmount(expenseSum);
     setIncomeAmount(incomeSum);
+    setAmount(allAmount);
   }, [records]);
 
   return (
@@ -55,7 +62,7 @@ const Dashboard = () => {
               <div className="flex">
                 <div className="flex flex-col justify-end mt-24">
                   <p>Cash</p>
-                  <p>10,000,00</p>{" "}
+                  <p>{amount}</p>{" "}
                 </div>
                 <div className="flex justify-end">{/* <Shape /> */}</div>
               </div>
