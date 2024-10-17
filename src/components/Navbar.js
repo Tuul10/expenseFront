@@ -2,9 +2,21 @@ import { useState } from "react";
 import Logo from "../../public/icons/Logo";
 import AddRecord from "./AddRecord";
 import Link from "next/link";
+import { GoSignOut } from "react-icons/go";
+import { AuthProvider, useAuthContext } from "@/providers/Authprovider";
 
 const Navbar = () => {
   const [showAdd, setShowAdd] = useState(false);
+  const { currentUser, setCurrentUser } = useAuthContext();
+
+  const signOut = () => {
+    const user = localStorage.getItem("userid");
+
+    if (user) {
+      setCurrentUser(0);
+    }
+    localStorage.clear();
+  };
 
   const handleAdd = () => {
     setShowAdd(!showAdd);
@@ -32,12 +44,8 @@ const Navbar = () => {
         >
           + Record
         </button>
-        <div className="rounded-full w-10 h-10 bg-[url('/images/Profile.jpeg')]">
-          {/* <Image
-            src="Placeholder.png
-        "
-          /> */}
-        </div>
+        <div className="rounded-full w-10 h-10 bg-[url('/images/Profile.jpeg')] text-sm"></div>
+        <GoSignOut onClick={signOut} />
       </div>
     </div>
   );

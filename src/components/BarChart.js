@@ -2,7 +2,8 @@ import { useContext, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import { ThemeContext } from "./ThemeContext";
 import moment from "moment";
-import { util } from "util";
+import { getMonth } from "date-fns";
+import { format } from "date-fns";
 
 const BarChart = () => {
   const { records } = useContext(ThemeContext);
@@ -16,6 +17,27 @@ const BarChart = () => {
       chartInstance.current.destroy();
     }
 
+    const expanseDate = records.map((record) => {
+      if (record.transaction_type === "Expense")
+        return format(new Date(record.transferat), "yyyy-MM-dd");
+    });
+
+    const incomeDate = records.map((record) => {
+      if (record.transaction_type === "Income")
+        return format(new Date(record.transferat), "yyyy-MM-dd");
+    });
+
+    const month = getMonth(new Date(expanseDate[2]));
+
+    const realMonth = month + 1;
+
+    // [
+    //   {
+    //     "January":[
+    //     totalExpense:200
+    //   ]
+    //   }
+    // ]
     const labels = [
       "January",
       "February",
@@ -30,7 +52,19 @@ const BarChart = () => {
       "November",
       "December",
     ];
-    const data = records.map((record) => record.amount);
+    const data = records.map((record) => {
+      if (record.transaction_type === "Expense");
+      return record.amount;
+    });
+
+    console.log(data);
+
+    const incomeData = records.map((record) => {
+      if (record.transaction_type === "Income");
+      return record.amount;
+    });
+
+    console.log(incomeData);
 
     chartInstance.current = new Chart(ctx, {
       type: "bar",
@@ -46,7 +80,7 @@ const BarChart = () => {
           },
           {
             label: "expense",
-            data: data,
+            data: incomeData,
             backgroundColor: "red",
             borderColor: "red",
             borderWidth: 1,

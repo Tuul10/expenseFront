@@ -4,22 +4,27 @@ import ExpenseLogo from "../../public/icons/ExpenseLogo";
 import IncomeLogo from "../../public/icons/IncomeLogo";
 import { CardLogo } from "../../public/icons/CardLogo";
 import { Geld } from "../../public/icons/Geld";
-import { ThemeContext } from "@/components/ThemeContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BarChart from "@/components/BarChart";
 import RingChart from "@/components/PieChart";
-import OneRecord from "@/components/OneRecord";
 import moment from "moment";
+import { Transaction } from "@/components/Transaction";
+import OneRecord from "@/components/OneRecord";
+import axios from "axios";
+import { ThemeContext } from "@/components/ThemeContext";
+import { useAuthContext } from "@/providers/Authprovider";
 
 const Dashboard = () => {
   const { records } = useContext(ThemeContext);
-  const [number, setNumber] = useState(0);
+  const [expenseAmount, setExpenseAmount] = useState([]);
+  console.log(expenseAmount);
 
-  // const money = records.filter((record) => {
-  //   console.log(record);
-  //   record.transaction_type === "Expense";
-  //   return record.amount;
-  // });
+  const expense = () => {
+    records.map((record) => {
+      record.transaction_type === "Expense";
+      setExpenseAmount(record.amount);
+    });
+  };
 
   return (
     <div className="bg-[#F3F4F6] flex flex-col gap-8  mx-auto w-[100vw] h-[100%]">
@@ -98,16 +103,15 @@ const Dashboard = () => {
           </div>
         </div>
       </div> */}
-        <div className="flex w-[1280px] mx-auto p-4 text-base front-normal bg-white rounded-md">
-          <h1>Last Records</h1>
+        <div className="w-[1280px] mx-auto px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
+          <h1 className="px-8">Records</h1>
         </div>
-        <div className="max-w-7xl mx-auto w-[1280px]">
+        <div className="w-[1280px] mx-auto flex flex-col gap-4">
           {records.map((record) => {
             return (
               <OneRecord
-                key={record.recordid}
                 text={record.category_name}
-                time={record.createdat}
+                time={record.transferat}
                 money={record.amount}
               />
             );

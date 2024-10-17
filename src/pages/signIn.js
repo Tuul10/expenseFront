@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { toast } from "sonner";
+import { useAuthContext } from "@/providers/Authprovider";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -18,8 +19,7 @@ const SignIn = () => {
       })
       .then(function (response) {
         localStorage.setItem("userid", JSON.stringify(response.data[0].userid));
-        if (response.data.length === 1) return router.push("/dashboard");
-        else toast.error("somethin wrong email or password");
+        router.push("/dashboard");
       })
       .catch(function (error) {
         toast.error("something wrong");

@@ -8,6 +8,7 @@ import { AddCategory } from "@/components/AddCategory";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { ThemeContext } from "@/components/ThemeContext";
+import { useAuthContext } from "../providers/Authprovider";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
@@ -18,7 +19,7 @@ const Home = (props) => {
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
   const router = useRouter();
-  const { currentUser, isLoading } = useContext(ThemeContext);
+  const { currentUser, isLoading } = useAuthContext();
 
   useEffect(() => {
     if (!currentUser && !isLoading) {
@@ -73,6 +74,7 @@ const Home = (props) => {
       console.error(error);
     }
   };
+
   const filteredCategories = filteredRecords.filter((record) => {
     if (!search) return true;
     return record.category_name.toLowerCase().includes(search?.toLowerCase());

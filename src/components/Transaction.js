@@ -14,7 +14,7 @@ export const Transaction = (props) => {
 
     return category?.selected;
   });
-
+  const x = "x";
   const deleteRecord = async (recordid) => {
     try {
       await axios.delete(
@@ -67,9 +67,9 @@ export const Transaction = (props) => {
             money={record.amount}
             transactionType={record.transaction_type}
             deleteRecord={() => deleteRecord(record.recordid)}
-            getRecords={() => getRecords(record.recordid)}
+            x={x}
+            // getRecords={() => getRecords(record.recordid)}
           />
-          {/* <p onclick={deleteRecord}>x</p> */}
         </div>
       ))}
     </div>

@@ -5,11 +5,11 @@ import "chart.js/auto";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
-const records = [
-  { category_name: "Food", amount: 200 },
-  { category_name: "Transport", amount: 100 },
-  { category_name: "Entertainment", amount: 150 },
-];
+// const records = [
+//   { category_name: "Food", amount: 200 },
+//   { category_name: "Transport", amount: 100 },
+//   { category_name: "Entertainment", amount: 150 },
+// ];
 
 const RingChart = () => {
   const { records } = useContext(ThemeContext);

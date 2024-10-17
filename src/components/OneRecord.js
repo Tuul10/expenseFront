@@ -8,17 +8,7 @@ import { de } from "date-fns/locale";
 import currency from "currency.js";
 
 const OneRecord = (props) => {
-  const {
-    text,
-    image,
-    time,
-    color,
-    money,
-    transactionType,
-    deleteRecord,
-    getRecords,
-    recordid,
-  } = props;
+  const { text, time, money, transactionType, deleteRecord, x } = props;
   const Expensebackground =
     transactionType === "Expense" ? "#0166FF" : "#16A34A";
 
@@ -60,7 +50,7 @@ const OneRecord = (props) => {
         <button
           onClick={() => document.getElementById("my_modal_1").showModal()}
         >
-          x
+          {x}
         </button>
 
         <dialog id="my_modal_1" className="modal">
