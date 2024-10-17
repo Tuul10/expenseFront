@@ -9,11 +9,21 @@ import BarChart from "@/components/BarChart";
 import RingChart from "@/components/PieChart";
 import OneRecord from "@/components/OneRecord";
 import { ThemeContext } from "@/components/ThemeContext";
+import { useAuthContext } from "@/providers/Authprovider";
+import { useRouter } from "next/router";
 
 const Dashboard = () => {
   const { records } = useContext(ThemeContext);
   const [expenseAmount, setExpenseAmount] = useState(0);
   const [incomeAmount, setIncomeAmount] = useState(0);
+  const { currentUser, isLoading } = useAuthContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!currentUser && !isLoading) {
+      router.push("/signIn");
+    }
+  }, [currentUser, isLoading]);
 
   useEffect(() => {
     let expenseSum = 0;
