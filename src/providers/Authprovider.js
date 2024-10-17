@@ -1,10 +1,7 @@
 import { useEffect, createContext, useState, useContext } from "react";
 import { useRouter } from "next/router";
 
-const AuthContext = createContext({
-  currentUser: null,
-  isLoading: false,
-});
+const AuthContext = createContext();
 
 export const useAuthContext = () => useContext(AuthContext);
 
@@ -16,37 +13,26 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const user = localStorage.getItem("userid");
 
-    // if (user) {
-    //   const parsedUser = JSON.parse(user);
-    //   setCurrentUser(parsedUser);
-    // }
-    setCurrentUser(user);
-
+    if (user) {
+      const parseduser = JSON.parse(user);
+      setCurrentUser(parseduser);
+    }
     setIsLoading(false);
   }, [isLoading]);
 
-  //   const signin = async (userid) => {
-  //     setIsLoading(true);
-  //     localStorage.setItem(
-  //       "userid",
-  //       JSON.stringify({
-  //         userid,
-  //       })
-  //     );
-
-  //     setCurrentUser({
-  //       userid,
-  //     });
-
-  //     setIsLoading(false);
-  //     router.push("/");
-  //   };
+  const signin = async (userid) => {
+    localStorage.setItem("userid", JSON.stringify(userid));
+    setCurrentUser(userid);
+    setIsLoading(false);
+    router.push("/dashboard");
+  };
 
   return (
     <AuthContext.Provider
       value={{
         currentUser,
         isLoading,
+        signin,
         setIsLoading,
         setCurrentUser,
       }}

@@ -21,6 +21,7 @@ const OneRecord = (props) => {
   const icon = categoryIconByCategoryName(props);
 
   const formattedMoney = currency(money, { decimal: ",", symbol: "" }).format();
+
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
       <div className="flex gap-4">

@@ -1,86 +1,68 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import { ThemeContext } from "./ThemeContext";
-import moment from "moment";
-import { getMonth } from "date-fns";
-import { format } from "date-fns";
+import { format, getMonth } from "date-fns";
 
 const BarChart = () => {
   const { records } = useContext(ThemeContext);
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
+  const [monthlyExpenses, setMonthlyExpenses] = useState(new Array(12).fill(0));
+  const [monthlyIncomes, setMonthlyIncomes] = useState(new Array(12).fill(0));
+
+  useEffect(() => {
+    const expenses = new Array(12).fill(0);
+    const incomes = new Array(12).fill(0);
+
+    records.forEach((record) => {
+      const month = getMonth(new Date(record.transferat));
+
+      if (record.transaction_type === "Expense") {
+        expenses[month] += record.amount;
+      } else if (record.transaction_type === "Income") {
+        incomes[month] += record.amount;
+      }
+    });
+
+    setMonthlyExpenses(expenses);
+    setMonthlyIncomes(incomes);
+  }, [records]);
+
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
 
     if (chartInstance.current) {
-      chartInstance.current.destroy();
     }
-
-    const expanseDate = records.map((record) => {
-      if (record.transaction_type === "Expense")
-        return format(new Date(record.transferat), "yyyy-MM-dd");
-    });
-
-    const incomeDate = records.map((record) => {
-      if (record.transaction_type === "Income")
-        return format(new Date(record.transferat), "yyyy-MM-dd");
-    });
-
-    const month = getMonth(new Date(expanseDate[2]));
-
-    const realMonth = month + 1;
-
-    // [
-    //   {
-    //     "January":[
-    //     totalExpense:200
-    //   ]
-    //   }
-    // ]
-    const labels = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const data = records.map((record) => {
-      if (record.transaction_type === "Expense");
-      return record.amount;
-    });
-
-    console.log(data);
-
-    const incomeData = records.map((record) => {
-      if (record.transaction_type === "Income");
-      return record.amount;
-    });
-
-    console.log(incomeData);
 
     chartInstance.current = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: labels,
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ],
         datasets: [
           {
-            label: "income",
-            data: data,
+            label: "Income",
+            data: monthlyIncomes,
             backgroundColor: "green",
             borderColor: "green",
             borderWidth: 1,
           },
           {
-            label: "expense",
-            data: incomeData,
+            label: "Expense",
+            data: monthlyExpenses,
             backgroundColor: "red",
             borderColor: "red",
             borderWidth: 1,
@@ -101,7 +83,7 @@ const BarChart = () => {
         chartInstance.current.destroy();
       }
     };
-  }, [records]);
+  }, [monthlyExpenses, monthlyIncomes]);
 
   return <canvas ref={chartRef}></canvas>;
 };

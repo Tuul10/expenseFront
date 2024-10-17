@@ -5,12 +5,6 @@ import "chart.js/auto";
 
 Chart.register(ArcElement, Tooltip, Legend);
 
-// const records = [
-//   { category_name: "Food", amount: 200 },
-//   { category_name: "Transport", amount: 100 },
-//   { category_name: "Entertainment", amount: 150 },
-// ];
-
 const RingChart = () => {
   const { records } = useContext(ThemeContext);
   const chartInstance = useRef(null);
@@ -27,6 +21,7 @@ const RingChart = () => {
     };
     return colorMap[category] || "#CCCCCC";
   }
+
   const chartRef = useRef(null);
 
   useEffect(() => {
@@ -36,24 +31,30 @@ const RingChart = () => {
       chartInstance.current.destroy();
     }
 
-    const data = records.reduce(
-      (acc, record) => {
-        acc.labels.push(record.category_name);
-        acc.data.push(record.amount);
-        acc.colors.push(getColorForCategory(record.category_name));
-        return acc;
-      },
-      { labels: [], data: [], colors: [] }
-    );
+    // Aggregating data by category
+    const aggregatedData = records.reduce((acc, record) => {
+      const category = record.category_name;
+
+      if (!acc[category]) {
+        acc[category] = { amount: 0, color: getColorForCategory(category) };
+      }
+      acc[category].amount += record.amount;
+
+      return acc;
+    }, {});
+
+    const labels = Object.keys(aggregatedData);
+    const data = labels.map((label) => aggregatedData[label].amount);
+    const backgroundColors = labels.map((label) => aggregatedData[label].color);
 
     chartInstance.current = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: data.labels,
+        labels,
         datasets: [
           {
-            data: data.data,
-            backgroundColor: data.colors,
+            data,
+            backgroundColor: backgroundColors,
             hoverOffset: 4,
           },
         ],

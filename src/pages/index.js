@@ -9,6 +9,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { ThemeContext } from "@/components/ThemeContext";
 import { useAuthContext } from "../providers/Authprovider";
+import { FaAngleRight, FaChevronLeft } from "react-icons/fa6";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
@@ -84,26 +85,13 @@ const Home = (props) => {
     getRecords();
   }, []);
 
-  const handleSortChange = (event) => {
-    const value = event.target.value;
-    if (value === "Newest") {
-      selectNewest();
-    } else {
-      Oldest();
-    }
-  };
-
-  const selectNewest = () => {
-    const sortedRecords = [...records].sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
-    setFilteredRecords(sortedRecords);
-  };
-
-  const Oldest = () => {
-    const sortedRecords = [...records].sort(
-      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-    );
+  const handleSortChange = (e) => {
+    const value = e.target.value;
+    const sortedRecords = [...records].sort((a, b) => {
+      return value === "Newest"
+        ? new Date(b.tansferat) - new Date(a.createdat)
+        : new Date(a.createdat) - new Date(b.transferat);
+    });
     setFilteredRecords(sortedRecords);
   };
 
@@ -229,10 +217,10 @@ const Home = (props) => {
               </div>
               <div className="flex flex-col gap-2"></div>
               <div className="flex gap-2 py-1.5 pl-3 items-center">
-                <PlusSign color={"#0166FF"} />
-                <button onClick={() => handleAddCategory()}>
+                {/* <PlusSign color={"#0166FF"} /> */}
+                {/* <button onClick={() => handleAddCategory()}>
                   Add category
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

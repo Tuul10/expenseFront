@@ -14,7 +14,9 @@ export const Transaction = (props) => {
 
     return category?.selected;
   });
+
   const x = "x";
+
   const deleteRecord = async (recordid) => {
     try {
       await axios.delete(
@@ -27,23 +29,6 @@ export const Transaction = (props) => {
       console.error(error);
     }
   };
-
-  // const getRecords = async (recordid) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:8000/records/record/${recordid}`
-  //     );
-  //     setRecordid(response.data.records);
-  //     console.log(response);
-  //     handleUpdateRecord();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getRecords();
-  // }, []);
 
   const handleUpdateRecord = () => {
     setShowHandleUpdate(!showhandleupdate);

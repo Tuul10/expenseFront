@@ -10,6 +10,23 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const { currentUser, isLoading, signin } = useAuthContext();
+
+  // useEffect(() => {
+  //   if (currentUser && !isLoading) {
+  //     router.push("/dashboard");
+  //   }
+  // }, [currentUser, isLoading]);
+
+  // const handleSignIn = async () => {
+  //   await signin(email, 1);
+  // };
+
+  useEffect(() => {
+    if (currentUser && !isLoading) {
+      router.push("/dashboard");
+    }
+  }, [currentUser, isLoading]);
 
   const Login = async () => {
     await axios
@@ -18,8 +35,8 @@ const SignIn = () => {
         user_password: password,
       })
       .then(function (response) {
-        localStorage.setItem("userid", JSON.stringify(response.data[0].userid));
-        router.push("/dashboard");
+        console.log(response);
+        signin(response.data[0].userid);
       })
       .catch(function (error) {
         toast.error("something wrong");
