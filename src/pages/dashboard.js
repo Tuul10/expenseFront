@@ -110,6 +110,7 @@ const Dashboard = () => {
           {records.map((record) => {
             return (
               <OneRecord
+                key={record.recordid}
                 text={record.category_name}
                 time={record.transferat}
                 money={record.amount}
