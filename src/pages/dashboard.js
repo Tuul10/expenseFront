@@ -13,23 +13,21 @@ import { useAuthContext } from "@/providers/Authprovider";
 import { useRouter } from "next/router";
 
 const Dashboard = () => {
-  const { records } = useContext(ThemeContext);
+  const { records, getRecord } = useContext(ThemeContext);
   const [expenseAmount, setExpenseAmount] = useState(0);
   const [incomeAmount, setIncomeAmount] = useState(0);
   const { currentUser, isLoading } = useAuthContext();
-  const [amount, setAmount] = useState;
   const router = useRouter();
 
   useEffect(() => {
     if (!currentUser && !isLoading) {
       router.push("/signIn");
     }
-  }, [currentUser, isLoading]);
+  }, [currentUser, isLoading, getRecord]);
 
   useEffect(() => {
     let expenseSum = 0;
     let incomeSum = 0;
-    let allAmount = 0;
 
     records.forEach((record) => {
       if (record.transaction_type === "Expense") {
@@ -39,14 +37,10 @@ const Dashboard = () => {
       }
     });
 
-    records.forEach((record) => {
-      allAmount += record.amount;
-    });
-
     setExpenseAmount(expenseSum);
     setIncomeAmount(incomeSum);
-    setAmount(allAmount);
   }, [records]);
+  const balance = incomeAmount - expenseAmount;
 
   return (
     <div className="bg-[#F3F4F6] flex flex-col gap-8  mx-auto w-[100vw] h-[100%]">
@@ -61,8 +55,7 @@ const Dashboard = () => {
               </div>
               <div className="flex">
                 <div className="flex flex-col justify-end mt-24">
-                  <p>Cash</p>
-                  <p>{amount}</p>{" "}
+                  <p>Balance: {new Intl.NumberFormat().format(balance)}</p>
                 </div>
                 <div className="flex justify-end">{/* <Shape /> */}</div>
               </div>
@@ -71,7 +64,7 @@ const Dashboard = () => {
             <Income
               color={"#84CC16"}
               title={"Your Income"}
-              money={incomeAmount}
+              money={new Intl.NumberFormat().format(incomeAmount)}
               text={"Your Income Amount"}
               description={"32% from last month"}
               icon={<IncomeLogo />}
@@ -80,7 +73,7 @@ const Dashboard = () => {
             <Income
               color={"#0166FF"}
               title={"Your Expense"}
-              money={-expenseAmount}
+              money={new Intl.NumberFormat().format(-expenseAmount)}
               text={"Your Expense Amount"}
               description={"32% from last month"}
               icon={<ExpenseLogo />}

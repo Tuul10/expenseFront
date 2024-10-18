@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { ThemeContext } from "@/components/ThemeContext";
 import { useAuthContext } from "../providers/Authprovider";
 import { FaAngleRight, FaChevronLeft } from "react-icons/fa6";
+import { isToday } from "date-fns";
 
 const Home = (props) => {
   const [showAdd, setShowAdd] = useState(false);
@@ -81,6 +82,14 @@ const Home = (props) => {
     return record.category_name.toLowerCase().includes(search?.toLowerCase());
   });
 
+  const todayRecords = filteredCategories.filter((record) =>
+    isToday(new Date(record.transferat))
+  );
+
+  const oldRecords = filteredCategories.filter(
+    (record) => !isToday(new Date(record.transferat))
+  );
+
   useEffect(() => {
     getRecords();
   }, []);
@@ -124,6 +133,12 @@ const Home = (props) => {
 
   const handleAdd = () => {
     setShowAdd(!showAdd);
+  };
+
+  const days = () => {
+    records.forEach((record) => {
+      const day = getDay(new Date(record.transferat));
+    });
   };
   // const opacity = showAdd === false ? "opacity-100" : "opacity-100";
   return (
@@ -217,37 +232,59 @@ const Home = (props) => {
               </div>
               <div className="flex flex-col gap-2"></div>
               <div className="flex gap-2 py-1.5 pl-3 items-center">
-                {/* <PlusSign color={"#0166FF"} /> */}
-                {/* <button onClick={() => handleAddCategory()}>
-                  Add category
+                {/* <input type="text" placeholder="feedback"></input>
+                <button
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") send();
+                  }}
+                >
+                  send
                 </button> */}
+                {/* <PlusSign color={"#0166FF"} />
+                {
+                  <button onClick={() => handleAddCategory()}>
+                    Add category
+                  </button>
+                } */}
               </div>
             </div>
           </div>
           <div className="w-[894px] flex flex-col gap-4">
-            {/* <div className="flex justify-between">
-              <div className="flex gap-4 items-center">
-                <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
-                  <FaChevronLeft />
+            {
+              <div className="flex justify-between">
+                <div className="flex gap-4 items-center">
+                  <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
+                    <FaChevronLeft />
+                  </div>
+                  <p className="font-normal text-base"> Last 30 Days</p>
+                  <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
+                    <FaAngleRight />
+                  </div>
                 </div>
-                <p className="font-normal text-base"> Last 30 Days</p>
-                <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
-                  <FaAngleRight />
-                </div>
+                <select
+                  onclick={handleSortChange}
+                  className="w-[180px] py-3 px-4 rounded-lg font-semibold text-base text-[#1F2937] border border-[#D1D5DB] bg-white"
+                >
+                  <option selected>Newest First</option>
+                  <option>Oldest </option>
+                </select>
               </div>
-              <select
-                onclick={handleSortChange}
-                className="w-[180px] py-3 px-4 rounded-lg font-semibold text-base text-[#1F2937] border border-[#D1D5DB] bg-white"
-              >
-                <option selected>Newest First</option>
-                <option>Oldest </option>
-              </select>
-            </div> */}
+            }
             <div className="flex flex-col gap-3">
-              <p className="font-semibold text-base"> Records </p>
+              <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3">
                 <Transaction
-                  records={filteredCategories}
+                  records={todayRecords}
+                  setRecords={setFilteredRecords}
+                  categories={categories}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <p className="font-semibold text-base"> Old days </p>
+              <div className="flex flex-col gap-3">
+                <Transaction
+                  records={oldRecords}
                   setRecords={setFilteredRecords}
                   categories={categories}
                 />

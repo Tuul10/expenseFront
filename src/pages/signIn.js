@@ -12,16 +12,6 @@ const SignIn = () => {
   const router = useRouter();
   const { currentUser, isLoading, signin } = useAuthContext();
 
-  // useEffect(() => {
-  //   if (currentUser && !isLoading) {
-  //     router.push("/dashboard");
-  //   }
-  // }, [currentUser, isLoading]);
-
-  // const handleSignIn = async () => {
-  //   await signin(email, 1);
-  // };
-
   useEffect(() => {
     if (currentUser && !isLoading) {
       router.push("/dashboard");
@@ -29,13 +19,15 @@ const SignIn = () => {
   }, [currentUser, isLoading]);
 
   const Login = async () => {
+    if (!email && !password) {
+      alert("hooson medeelel baina");
+    }
     await axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signin`, {
         email: email,
         user_password: password,
       })
       .then(function (response) {
-        console.log(response);
         signin(response.data[0].userid);
       })
       .catch(function (error) {
@@ -69,6 +61,10 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="px-4 py-3 w-full rounded-lg bg-[#F3F4F6] border border-[#D1D5DB]"
               placeholder="Password"
+              type="password"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") Login();
+              }}
             />
             <button
               onClick={Login}

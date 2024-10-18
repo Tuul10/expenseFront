@@ -20,7 +20,7 @@ const OneRecord = (props) => {
     transactionType === "Expense" ? <FoodExpense /> : <FaHouse />;
   const icon = categoryIconByCategoryName(props);
 
-  const formattedMoney = currency(money, { decimal: ",", symbol: "" }).format();
+  const formattedMoney = new Intl.NumberFormat().format(money);
 
   return (
     <div className="w-full px-6 py-3 border bg-white border-[#E5E7EB] items-center justify-between flex rounded-xl">
@@ -53,7 +53,9 @@ const OneRecord = (props) => {
         >
           {x}
         </button>
-
+        {/* <div className="lg:tooltip" data-tip="hello">
+  <button className="btn">Hover me</button>
+</div> */}
         <dialog id="my_modal_1" className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Wait!</h3>

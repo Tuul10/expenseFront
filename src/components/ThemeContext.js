@@ -22,7 +22,7 @@ export const ThemeContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ records }}>
+    <ThemeContext.Provider value={{ records, getRecord }}>
       {children}
     </ThemeContext.Provider>
   );

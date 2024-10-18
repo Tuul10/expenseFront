@@ -1,14 +1,16 @@
 import { useAuthContext } from "@/providers/Authprovider";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Logo from "../../public/icons/Logo";
 import Link from "next/link";
 import AddRecord from "./AddRecord";
 import { FiLogOut } from "react-icons/fi";
+import { ThemeContext } from "./ThemeContext";
 
 const Navbar = () => {
   const [showAdd, setShowAdd] = useState(false);
   const { currentUser, setCurrentUser, setIsLoading } = useAuthContext();
+  const { getRecord } = useContext(ThemeContext);
   const router = useRouter();
 
   const signOut = () => {
@@ -39,6 +41,7 @@ const Navbar = () => {
         <Logo />
         <Link href="/dashboard">
           <p
+            onClick={getRecord}
             className={router.pathname === "/dashboard" ? "text-blue-600" : ""}
           >
             Dashboard

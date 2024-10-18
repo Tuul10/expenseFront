@@ -31,18 +31,18 @@ const RingChart = () => {
       chartInstance.current.destroy();
     }
 
-    // Aggregating data by category
     const aggregatedData = records.reduce((acc, record) => {
       const category = record.category_name;
+      const amount = record.amount;
 
-      if (!acc[category]) {
+      if (!acc[category] && !acc[amount]) {
         acc[category] = { amount: 0, color: getColorForCategory(category) };
       }
       acc[category].amount += record.amount;
 
       return acc;
     }, {});
-
+    // Object.keys(aggregatedData);
     const labels = Object.keys(aggregatedData);
     const data = labels.map((label) => aggregatedData[label].amount);
     const backgroundColors = labels.map((label) => aggregatedData[label].color);
@@ -50,7 +50,6 @@ const RingChart = () => {
     chartInstance.current = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels,
         datasets: [
           {
             data,
@@ -58,12 +57,15 @@ const RingChart = () => {
             hoverOffset: 4,
           },
         ],
+
+        labels: labels,
       },
+
       options: {
         responsive: true,
         plugins: {
           legend: {
-            position: "top",
+            position: "right",
           },
           tooltip: {
             callbacks: {
