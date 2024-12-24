@@ -163,7 +163,7 @@ const Home = (props) => {
       >
         <Navbar />
 
-        <div className="flex gap-6">
+        <div className="px-60 flex w-full gap-20">
           <div className="bg-white flex flex-col px-6 py-4  w-[282px] gap-6 rounded-xl border border-[#E5E7EB]">
             <div className="flex flex-col gap-6">
               <p> Records </p>
@@ -220,7 +220,6 @@ const Home = (props) => {
                   categories={categories}
                   setCategories={setCategories}
                   handleSelectcategory={handleSelectcategory}
-                  // filterCategories={checkedCategories}
                 />
 
                 <p
@@ -231,45 +230,10 @@ const Home = (props) => {
                 </p>
               </div>
               <div className="flex flex-col gap-2"></div>
-              <div className="flex gap-2 py-1.5 pl-3 items-center">
-                {/* <input type="text" placeholder="feedback"></input>
-                <button
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") send();
-                  }}
-                >
-                  send
-                </button> */}
-                {/* <PlusSign color={"#0166FF"} />
-                {
-                  <button onClick={() => handleAddCategory()}>
-                    Add category
-                  </button>
-                } */}
-              </div>
+              <div className="flex gap-2 py-1.5 pl-3 items-center"></div>
             </div>
           </div>
           <div className="w-[894px] flex flex-col gap-4">
-            {
-              <div className="flex justify-between">
-                <div className="flex gap-4 items-center">
-                  <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
-                    <FaChevronLeft />
-                  </div>
-                  <p className="font-normal text-base"> Last 30 Days</p>
-                  <div className="w-8 h-8 rounded-lg p-1.5 bg-[#E5E7EB]">
-                    <FaAngleRight />
-                  </div>
-                </div>
-                <select
-                  onclick={handleSortChange}
-                  className="w-[180px] py-3 px-4 rounded-lg font-semibold text-base text-[#1F2937] border border-[#D1D5DB] bg-white"
-                >
-                  <option selected>Newest First</option>
-                  <option>Oldest </option>
-                </select>
-              </div>
-            }
             <div className="flex flex-col gap-3">
               <p className="font-semibold text-base"> Today </p>
               <div className="flex flex-col gap-3">

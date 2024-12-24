@@ -43,7 +43,7 @@ const Dashboard = () => {
   const balance = incomeAmount - expenseAmount;
 
   return (
-    <div className="bg-[#F3F4F6] flex flex-col gap-8  mx-auto w-[100vw] h-[100%]">
+    <div className="bg-[#F3F4F6] flex flex-col gap-8  mx-auto w-[100vw] h-[100vh] ">
       <div className="w-[1280px] mx-auto gap-8 flex flex-col">
         <Navbar />
         <div className="flex flex-col gap-6 w-[1200px] mx-auto">

@@ -20,7 +20,7 @@ const SignIn = () => {
 
   const Login = async () => {
     if (!email && !password) {
-      alert("hooson medeelel baina");
+      toast.error("hooson medeelel baina");
     }
     await axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signin`, {
@@ -29,6 +29,7 @@ const SignIn = () => {
       })
       .then(function (response) {
         signin(response.data[0].userid);
+        toast.success("successfully");
       })
       .catch(function (error) {
         toast.error("something wrong");
