@@ -23,7 +23,7 @@ const Dashboard = () => {
     if (!currentUser && !isLoading) {
       router.push("/signIn");
     }
-  }, [currentUser, isLoading, getRecord]);
+  }, [currentUser, isLoading, getRecord, router]);
 
   useEffect(() => {
     let expenseSum = 0;

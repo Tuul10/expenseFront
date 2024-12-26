@@ -16,7 +16,7 @@ const SignIn = () => {
     if (currentUser && !isLoading) {
       router.push("/dashboard");
     }
-  }, [currentUser, isLoading]);
+  }, [currentUser, isLoading, router]);
 
   const Login = async () => {
     if (!email && !password) {
